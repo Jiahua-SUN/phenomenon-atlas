@@ -1,0 +1,17 @@
+{
+  "release": "v2.0.0",
+  "assets": [
+    {
+      "name": "site-data-20261030.zip",
+      "bytes": 1100750796,
+      "sha256": "189c081ffda5bb17c36f9d93d2a9021d8f98d4f9cbe9dd3660e61b979df70b6a",
+      "url": "https://github.com/Jiahua-SUN/phenomenon-atlas/releases/download/v2.0.0/site-data-20261030.zip"
+    },
+    {
+      "name": "retrieval-model-20261030.zip",
+      "bytes": 1424425306,
+      "sha256": "75d22195fa27dfce53f61a61fdecaecc8233e24199d5d3bec894e49fcaaac0fe",
+      "url": "https://github.com/Jiahua-SUN/phenomenon-atlas/releases/download/v2.0.0/retrieval-model-20261030.zip"
+    }
+  ]
+}

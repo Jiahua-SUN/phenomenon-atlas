@@ -1,0 +1,14 @@
+.runtime/
+.venv/
+__pycache__/
+*.pyc
+*.log
+.env
+.env.*
+secrets/
+bundle/
+models/
+dist/data/
+dist/topics/
+*.zip
+*.7z
