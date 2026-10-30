@@ -1,0 +1,64 @@
+/* Phenomenon Atlas — board 03 ASK (two dialogs) and accounts. Uses only the tokens defined in style.css, so both themes carry over. */
+/* ---------- tabs ---------- */
+.ask2-tabs{display:flex;gap:0;border-bottom:1px solid var(--line2);margin:0 0 22px;max-width:980px}
+.ask2-tabs button{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:10px 22px 12px 0;margin-right:26px;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--text3);text-align:left;transition:color var(--dur2) var(--ease),border-color var(--dur2) var(--ease)}
+.ask2-tabs button b{font:600 11px var(--mono);letter-spacing:1.6px}.ask2-tabs button small{font:9px var(--mono);letter-spacing:.4px;color:var(--text3)}
+.ask2-tabs button:hover{color:var(--text)}.ask2-tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
+.ask2 #askText{min-height:96px}
+/* ---------- assistant layout ---------- */
+.chat-wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:34px;align-items:start}
+.chat-col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.chat-gate{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:16px 18px;font-size:13px;line-height:1.6;color:var(--text2)}.chat-gate p{margin:0 0 8px}.chat-gate b{color:var(--text);font-weight:500}
+.chat-compose.locked{opacity:.45;pointer-events:none}
+.chat-log{display:flex;flex-direction:column;gap:14px}
+.chat-hello{color:var(--text2);font-size:13px;line-height:1.6;max-width:720px}.chat-hello p{margin:0 0 6px}.chat-hello b{color:var(--text);font-weight:500}
+.msg{max-width:100%;animation:boardIn var(--dur3) var(--ease) both}
+.msg.user{align-self:flex-end;max-width:78%;background:var(--panel2);border:1px solid var(--line2);border-radius:6px 6px 2px 6px;padding:9px 13px;font-size:13.5px;line-height:1.55;color:var(--text)}.msg.user p{margin:0;white-space:pre-wrap}
+.msg.bot{border-left:2px solid var(--accent);padding:2px 0 2px 16px}
+.msg.bot .answer{font:14.5px/1.65 var(--serif);color:var(--text)}.msg.bot .answer p{margin:0 0 10px}.msg.bot .answer h4{font:600 10px var(--mono);letter-spacing:1.6px;color:var(--muted);margin:16px 0 6px}
+.msg.bot .answer ul,.msg.bot .answer ol{margin:0 0 10px;padding-left:20px}.msg.bot .answer li{margin:4px 0}
+.msg.bot .answer blockquote{margin:6px 0 10px;padding:7px 12px;background:var(--panel2);border-left:2px solid var(--line);border-radius:2px;font-style:italic;color:var(--text2)}
+.msg.bot .answer code{font:12px var(--mono);background:var(--panel2);padding:1px 4px;border-radius:2px}
+.msg.bot .cite{font-style:normal}
+.trace{list-style:none;margin:0 0 10px;padding:0;font:10px/1.7 var(--mono);color:var(--text3)}.trace li b{font-weight:400;color:var(--muted)}.trace li span{color:var(--text3)}
+.trace li.live{color:var(--accent);animation:askPulse 1.4s ease-in-out infinite}
+@keyframes askPulse{50%{opacity:.45}}
+.trace-box{margin:0 0 8px}.trace-box summary{cursor:pointer;font:9px var(--mono);letter-spacing:.8px;color:var(--text3)}.trace-box .trace{margin:6px 0 4px}
+.trace-none{font:9px var(--mono);letter-spacing:.6px;color:var(--text3);margin:0 0 6px}
+.chat-err{color:var(--bad);font:12px var(--sans)}
+.chat-compose textarea{width:100%;resize:vertical;min-height:70px;padding:11px 13px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:4px;font:14px/1.55 var(--sans);transition:border-color var(--dur1) var(--ease)}.chat-compose textarea:focus{border-color:var(--accent);outline:none}
+.chat-bar{display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap}
+.chat-refs{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;padding-left:2px}
+.chat-refs h3{font:9px var(--mono);letter-spacing:1.8px;color:var(--muted);margin:0 0 8px}
+.ref-list{list-style:none;margin:0;padding:0}.ref-list li{padding:8px 0 8px 10px;border-left:2px solid var(--line2);margin:5px 0;font-size:12px;line-height:1.45;transition:border-color var(--dur2) var(--ease),background var(--dur2) var(--ease)}
+.ref-list li.flash{border-left-color:var(--accent);background:var(--accent-soft)}
+.ref-list .src{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font:9px var(--mono);letter-spacing:.6px;color:var(--muted)}.ref-list .src b{color:var(--accent);font-weight:600}.ref-list .src small{color:var(--text3)}.ref-list .src a,.ref-list .src .text-btn{font:9px var(--mono)}
+.ref-list .ref-title{margin-top:3px;color:var(--text)}.ref-list blockquote{margin:5px 0 0;padding:6px 9px;background:var(--panel2);border-radius:2px;color:var(--text2);font:italic 12.5px/1.5 var(--serif)}
+/* ---------- account button + dialog ---------- */
+.acct-btn{display:flex;align-items:center;gap:7px;font:10px var(--mono);letter-spacing:.8px;color:var(--text2);border:1px solid var(--line);border-radius:14px;padding:5px 11px;max-width:230px;transition:border-color var(--dur2) var(--ease),color var(--dur2) var(--ease)}.acct-btn:hover{border-color:var(--accent);color:var(--text)}
+.acct-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.acct-dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
+.auth-dialog{max-width:560px}
+.auth-lead{font-size:13px;line-height:1.6;color:var(--text2);margin:10px 0 14px}.auth-lead b{color:var(--text);font-weight:500}
+.auth-form{display:flex;flex-direction:column;gap:12px}.auth-form label{display:flex;flex-direction:column;gap:5px;font:9px var(--mono);letter-spacing:1.4px;color:var(--muted)}
+.auth-form input{padding:9px 11px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:4px;font:14px var(--sans)}.auth-form input:focus{border-color:var(--accent);outline:none}
+.auth-actions{display:flex;align-items:center;gap:18px;margin-top:6px;flex-wrap:wrap}
+.auth-err{min-height:1em;margin:0;color:var(--bad);font-size:12px}.auth-ok{margin:10px 0 0;color:var(--ok);font-size:12px}
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 6px}.acct-grid small{display:block;font:8px var(--mono);letter-spacing:1.4px;color:var(--text3);margin-bottom:3px}.acct-grid b{font:500 15px var(--serif);word-break:break-all}
+.key-list{list-style:none;margin:0 0 12px;padding:0}.key-list li{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line2);font-size:12px;color:var(--text2)}.key-list li:first-child{border-top:0}.key-list code{font:12px var(--mono);color:var(--text)}.key-list span{flex:1}
+.text-btn.danger{color:var(--bad)}
+.key-once{border:1px solid var(--accent);border-radius:4px;padding:10px 12px;margin:0 0 12px;background:var(--accent-soft)}.key-once small{display:block;font:8px var(--mono);letter-spacing:1.4px;color:var(--accent);margin-bottom:6px}
+.key-once div{display:flex;align-items:center;gap:12px}.key-once code{font:12px var(--mono);word-break:break-all;color:var(--text);user-select:all}.key-once p{margin:8px 0 0;font-size:11px;color:var(--text2);line-height:1.5}.key-once p code{font-size:10.5px}
+@media (max-width:1100px){.chat-wrap{grid-template-columns:1fr}.chat-refs{position:static;max-height:none}.msg.user{max-width:92%}}
+@media (max-width:640px){.ask2-tabs button{padding-right:8px;margin-right:12px}.acct-grid{grid-template-columns:1fr}}
+/* ---------- day chart theme ---------- */
+:root[data-theme="light"] .ask2-tabs{border-bottom:3px double var(--line)}:root[data-theme="light"] .ask2-tabs button b{font:13px var(--mono);letter-spacing:2.2px}:root[data-theme="light"] .ask2-tabs button small{font:italic 13px var(--display);letter-spacing:0}
+:root[data-theme="light"] .chat-gate,:root[data-theme="light"] .msg.user{background-color:var(--panel);background-image:var(--tex-card);border-color:var(--line);border-radius:2px}
+:root[data-theme="light"] .msg.bot .answer{font:16px/1.6 var(--serif)}:root[data-theme="light"] .msg.bot .answer h4,:root[data-theme="light"] .chat-refs h3{font:11px var(--mono);letter-spacing:2.4px}
+:root[data-theme="light"] .chat-compose textarea,:root[data-theme="light"] .auth-form input{background-color:var(--panel);background-image:var(--tex-card);border-radius:2px;font:16px/1.5 var(--serif)}
+:root[data-theme="light"] .trace,:root[data-theme="light"] .trace-box summary,:root[data-theme="light"] .ref-list .src{font-family:var(--mono);letter-spacing:1px}
+:root[data-theme="light"] .acct-btn{border-radius:2px;font:11px var(--mono);letter-spacing:1.6px}:root[data-theme="light"] .key-once{border-radius:2px}
+/* keys and commands are case-sensitive: always a true monospace face (the day chart's --mono is a small-caps display font) */
+.key-once code,.key-list code,.doc code,.doc pre,.msg.bot .answer code{font-family:Consolas,"SFMono-Regular",ui-monospace,monospace!important;font-variant:normal;letter-spacing:0}
+/* "Powered by" badge of the research assistant (user, 2026-10-21: state that the dialogue runs on GLM-5.3-Flash) */
+.model-badge{margin-left:auto;font:9px var(--mono);letter-spacing:.8px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:3px 9px;white-space:nowrap}
+:root[data-theme="light"] .model-badge{font:10px var(--mono);letter-spacing:1.4px;border-radius:2px}

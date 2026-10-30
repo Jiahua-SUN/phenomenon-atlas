@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#ffffff">
+<title>Phenomenon Atlas</title><link rel="stylesheet" href="swiss.css?v=local1030"><link rel="stylesheet" href="ask.css?v=local1030"><link rel="stylesheet" href="swiss_ask.css?v=local1030">
+<script>(function(){var m='light';try{if(localStorage.getItem('atlasTheme3')==='dark')m='dark'}catch(e){}document.documentElement.dataset.theme=m})()</script><link rel="stylesheet" href="local.css?v=local1030"></head>
+<body>
+<header class="sw-head"><div class="sw-in">
+<button class="sw-logo" id="logoBtn" title="Home">Phenomenon <i>Atlas</i></button>
+<nav class="sw-nav" aria-label="Boards"><button class="rail-btn" data-board="home">Home</button><button class="rail-btn active" data-board="map">Map</button><button class="rail-btn" data-board="gap">Gap</button><button class="rail-btn" data-board="ask">Ask</button></nav>
+<div class="topbar-right"><button class="theme-btn" id="themeBtn" title="Switch between light and dark mode"><span aria-hidden="true">◐</span> <span id="themeLabel">Dark</span></button><button class="text-btn" id="methodBtn">Method</button></div>
+</div></header>
+<main class="sw-main">
+<section class="home" id="homeBoard" hidden></section>
+
+<section class="intro">
+ <div class="intro-text"><p class="eyebrow" id="boardEyebrow"></p><h1 id="boardTitle">Heat</h1></div>
+ <div class="intro-side"><p class="intro-copy" id="boardCopy"></p><button class="help-btn" id="helpBtn">How to read this board →</button><div class="stats" id="stats"></div></div>
+</section>
+<ol class="howto" id="howto"></ol>
+
+<section class="time-lens" id="timeLens">
+ <div class="time-main">
+  <div class="ctl"><span class="lab">Period</span><div class="mode-switch tg" role="group" aria-label="Period"><button data-mode="month" class="selected">Month</button><button data-mode="quarter">Quarter</button><button data-mode="all">Whole year</button></div></div>
+  <div class="ctl"><label class="lab" for="periodSelect" id="periodLab">Month</label><div class="time-nav"><button id="prevPeriod" aria-label="Previous period" title="Previous period">←</button><select id="periodSelect"></select><button id="nextPeriod" aria-label="Next period" title="Next period">→</button></div></div>
+  <div class="ctl"><span class="lab">Count <span class="info" tabindex="0" role="img" aria-label="Episodes: how many podcast episodes raised the topic in the period, each counted once. Audience points: each of those episodes earns 0 to 2 points by its YouTube views. A typical episode earns 1, so a topic can have more points than episodes." data-tip="Episodes: how many podcast episodes raised the topic in the period, each counted once. Audience points: each of those episodes earns 0 to 2 points by its YouTube views. A typical episode earns 1, so a topic can have more points than episodes.">?</span></span><div class="heat-switch tg" role="group" aria-label="Count"><button data-heat="n" class="selected">Episodes</button><button data-heat="w">Audience points</button></div></div>
+  <div class="period-count"><b id="periodEpisodes">—</b><span>podcasts in this period</span><span class="partial-badge" id="partialBadge" hidden></span></div>
+ </div>
+ <div class="time-bars-wrap"><span class="lab" id="barsCap">Episodes per month. Click a month to show it.</span><div class="time-bars" id="timeBars"></div><div class="time-months" id="timeMonths" aria-hidden="true"></div></div>
+</section>
+
+<section class="scope-row" id="scopeRow">
+ <div class="ctl scope-select"><span class="lab"><label id="scopeLabel" for="themeSelect">Research field</label> <span class="info" tabindex="0" role="img" aria-label="Research field: 17 fields of strategy research, such as innovation or corporate governance, taken from 30 years of keywords in six management journals, plus Others. Pick a field to see only its topics." data-tip="Research field: 17 fields of strategy research, such as innovation or corporate governance, taken from 30 years of keywords in six management journals, plus Others. Pick a field to see only its topics.">?</span></span><select id="themeSelect"></select></div>
+ <div class="ctl"><span class="lab">Show as</span><div class="view-switch tg" role="group" aria-label="Show as"><button id="viewMap" class="selected">Map</button><button id="viewSquares">Squares</button><button id="viewList">List</button><button id="viewTrend">Trend</button></div></div>
+ <div class="ctl scope-search"><label class="lab" for="search">Find a topic</label><input id="search" class="search" type="search" placeholder="e.g. pricing, hiring, AI"></div>
+ <div class="scope-note" id="scopeNote"></div>
+</section>
+
+<section class="workspace" id="workspace">
+ <div class="map-wrap" id="mapWrap">
+  <div class="map-canvas" id="mapCanvas">
+   <canvas id="pointCloud"></canvas>
+   <canvas id="oldMap" class="old-map" aria-hidden="true"></canvas>
+   <svg id="labelLayer" aria-label="Topic labels"></svg>
+   <div class="landscape-caption"><small id="captionCount"></small></div>
+   <div class="map-tooltip" id="tooltip" hidden></div>
+   <div class="zoom-controls"><button id="zoomOut" aria-label="Zoom out">−</button><button id="zoomReset">Fit</button><button id="zoomIn" aria-label="Zoom in">+</button></div>
+  </div>
+  <div class="map-bottom"><div class="legend"><span class="lg-lo" id="legendLo">Fewer podcast episodes</span><canvas id="legendBar" width="360" height="20"></canvas><span class="lg-hi" id="legendHi">More podcast episodes</span></div><p class="encoding-note" id="encodingNote"></p></div>
+  <div class="list-panel" id="listPanel" hidden></div>
+  <div class="squares-panel" id="squaresPanel" hidden></div><div class="sq-tip" id="sqTip" hidden></div>
+  <div class="trend-panel" id="trendPanel" hidden></div>
+ </div>
+ <aside class="detail" id="detail" hidden>
+  <div class="detail-resize" id="detailResize" role="separator" aria-orientation="vertical" aria-label="Panel width: drag, or use the left and right arrow keys" title="Drag to change the width. Double-click to reset." tabindex="0"></div>
+  <button class="close-detail" id="closeDetail" aria-label="Close">×</button>
+  <div class="detail-in">
+  <p class="eyebrow" id="detailEyebrow"></p>
+  <h2 id="detailTitle"></h2>
+  <p class="detail-desc" id="detailDesc"></p>
+  <div class="detail-stats" id="detailStats"></div>
+  <div class="detail-tabs tg" role="tablist"><button class="selected" data-tab="questions">Questions</button><button data-tab="papers">Papers</button><button data-tab="members">Research fields</button></div>
+  <div class="detail-body" id="detailBody"></div>
+  </div>
+ </aside>
+</section>
+
+<section class="gap-board" id="gapBoard" hidden>
+ <div class="rank-head"><div class="rank-controls"><div class="ctl"><label class="lab" for="rankTheme" id="rankThemeLab">Research field</label><select id="rankTheme"></select></div><div class="ctl"><span class="lab">Papers counted <span class="info" tabindex="0" role="img" aria-label="Core papers only: papers that study the same question or mechanism (relevance 85 or more out of 100). All related papers: every linked paper (relevance 60 or more)." data-tip="Core papers only: papers that study the same question or mechanism (relevance 85 or more out of 100). All related papers: every linked paper (relevance 60 or more).">?</span></span><select id="rankAcad" aria-label="Papers counted"><option value="broad">All related papers</option><option value="strict">Core papers only</option></select></div><div class="ctl" id="rankByCtl"><span class="lab">Rank by <span class="info" tabindex="0" role="img" aria-label="Gap compares a topic's place in two rankings of the listed topics: by podcasts and by papers. Each place is a percentile from 0 to 100. Gap = podcast percentile minus paper percentile. A topic ahead of 90% of topics in podcasts and of 20% in papers has a gap of 70." data-tip="Gap compares a topic's place in two rankings of the listed topics: by podcasts and by papers. Each place is a percentile from 0 to 100. Gap = podcast percentile minus paper percentile. A topic ahead of 90% of topics in podcasts and of 20% in papers has a gap of 70.">?</span></span><select id="rankBy" aria-label="Rank by"><option value="pod">Podcasts, most first</option><option value="pap">Papers, most first</option><option value="gp">Gap: many podcasts, few papers</option><option value="ga">Gap: many papers, few podcasts</option></select></div></div>
+  <div class="ctl"><span class="lab">Show as</span><div class="rank-tabs tg" role="tablist"><button class="selected" data-rtab="list">List</button><button data-rtab="quad">Quadrant</button></div></div></div>
+ <p class="rank-note" id="rankNote"></p>
+ <div class="gap-layout" id="gapLayout">
+  <div class="gap-main">
+   <div id="rankList" class="rank-list"></div>
+   <div id="rankQuad" class="rank-quad" hidden><svg id="quadSvg"></svg><div class="quad-legend"><span></span></div></div>
+  </div>
+ </div>
+</section>
+
+<section class="ask-board" id="askBoard" hidden></section><!-- board 03 is built by ask.js -->
+
+<section class="topic-page" id="topicPage" hidden></section><!-- full page of one topic (app3.js showTopicPage) -->
+
+<footer class="foot"><span id="footNote"></span></footer>
+</main>
+<dialog id="methodDialog"><div class="dialog-head"><h2>How the atlas was built</h2><button id="closeMethod" aria-label="Close">×</button></div><div id="methodContent"></div></dialog>
+<dialog id="helpDialog"><div class="dialog-head"><h2 id="helpTitle">How these numbers are computed</h2><button id="closeHelp" aria-label="Close">×</button></div><div id="helpContent"></div></dialog>
+<script src="app.js?v=local1030"></script><script src="app2.js?v=local1030"></script><script src="app2c.js?v=local1030"></script><script src="app2t.js?v=local1030"></script><script src="app3.js?v=local1030"></script><script src="app4.js?v=local1030"></script><script src="home.js?v=local1030"></script><script src="local_connection.js?v=local1030"></script><script src="ask.js?v=local1030"></script><script src="tour.js?v=local1030"></script>
+</body></html>

@@ -1,0 +1,74 @@
+/* Phenomenon Atlas v2 — home page (board 00): a title page. Shared structure; the day theme (kraft, Fell, parchment cards, compass) and the
+   dark academic theme (ink, Newsreader / Consolas, thin panels, spectrum) differ only in type and colour, set below by theme. */
+.home{padding:26px 0 8px}.home[hidden]{display:none!important}
+.home-wrap{max-width:1180px;margin:0 auto}
+.home-mast{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px}
+.home-title{position:relative;margin:18px 0 0;padding:56px 72px 52px;text-align:center}
+.home-title::before,.home-title::after{content:'';position:absolute;width:44px;height:44px;border:1px solid var(--line)}
+.home-title::before{left:14px;top:14px;border-right:0;border-bottom:0}.home-title::after{right:14px;bottom:14px;border-left:0;border-top:0}
+.home-title h1{margin:14px 0 8px;line-height:1}
+.home-sub{max-width:780px;margin:0 auto}
+.home-orn{display:flex;align-items:center;gap:18px;justify-content:center;margin:30px auto 22px;max-width:900px}.home-orn i{flex:1}
+.home-compass{width:96px;height:96px;flex:none}
+.home-spec{width:520px;height:56px;flex:none;display:block}
+.home-ornlab{display:flex;justify-content:space-between;width:520px;max-width:100%;margin:-12px auto 22px}
+.home-by{margin:26px 0 0;display:flex;justify-content:center;gap:56px;list-style:none;padding:0;flex-wrap:wrap}.home-by li{display:flex;flex-direction:column;gap:2px}
+.home-cta{margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.home-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:2px;border:1px solid var(--line);color:var(--text);background:var(--panel);white-space:nowrap;transition:filter var(--dur1) var(--ease),border-color var(--dur1) var(--ease)}
+.home-btn:hover{border-color:var(--accent)}.home-btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.home-btn.primary:hover{filter:brightness(1.08)}
+.home-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:22px}
+.home-part{position:relative;padding:24px 28px 24px;cursor:pointer;transition:transform var(--dur2) var(--ease)}.home-part:hover{transform:translateY(-2px)}
+.home-part h3{margin:8px 0 10px}.home-part p{margin:0}.home-part .go{margin-top:16px}
+.home-month{margin-top:22px;padding:26px 34px 22px}.home-month h2{margin:0 0 14px;text-align:center;font-weight:400}.home-month h4{margin:0 0 8px}
+.home-cols{display:grid;grid-template-columns:1fr 1fr;gap:46px}.home-cols ol{margin:0;padding:0;list-style:none}
+.home-cols button{display:grid;grid-template-columns:34px 1fr 48px;align-items:baseline;width:100%;text-align:left;padding:8px 0;border-top:1px solid var(--line2);transition:background var(--dur1) var(--ease)}
+.home-cols button:hover .ht{text-decoration:underline;text-underline-offset:3px}.home-cols .hv{text-align:right}
+.home-notice{margin-top:30px;text-align:center}.home-notice .rule{margin:0 auto 18px;max-width:540px}
+.home-notice p{max-width:940px;margin:0 auto 7px}
+@media(max-width:1000px){.home-parts{grid-template-columns:1fr}.home-cols{grid-template-columns:1fr;gap:0}.home-title{padding:40px 24px}.home-spec{width:100%}.home-orn i{display:none}}
+
+/* ---------- day theme: title page on kraft ---------- */
+:root[data-theme="light"] .home-mast{border-bottom:3px double var(--line)}
+:root[data-theme="light"] .home-mast span{font:12px var(--mono);letter-spacing:2.4px;color:var(--muted)}
+:root[data-theme="light"] .home-title,:root[data-theme="light"] .home-part,:root[data-theme="light"] .home-month{background-color:var(--panel);background-image:var(--tex-card);border:1px solid var(--line);box-shadow:inset 0 0 0 4px var(--panel),inset 0 0 0 5px var(--line2),0 14px 34px -20px var(--paper-shade)}
+:root[data-theme="light"] .home-kicker{font:15px var(--mono);letter-spacing:7px;color:var(--muted)}
+:root[data-theme="light"] .home-title h1{font:400 104px/1 var(--display);letter-spacing:-1px;color:var(--text)}
+:root[data-theme="light"] .home-sub{font:italic 25px/1.35 var(--display);color:var(--text2)}
+:root[data-theme="light"] .home-orn i{border-top:3px double var(--line)}
+:root[data-theme="light"] .home-compiled{font:14px var(--mono);letter-spacing:3.4px;color:var(--muted)}:root[data-theme="light"] .home-compiled b{font:400 17px var(--display);letter-spacing:0;color:var(--text)}
+:root[data-theme="light"] .home-by b{font:400 21px var(--mono);letter-spacing:2px}:root[data-theme="light"] .home-by span{font:italic 15px var(--display);color:var(--text2)}
+:root[data-theme="light"] .home-btn{font:14px var(--mono);letter-spacing:2.4px}:root[data-theme="light"] .home-btn.primary{box-shadow:inset 0 0 0 2px var(--accent),inset 0 0 0 3px var(--accent-ink)}
+:root[data-theme="light"] .home-part .no{font:15px var(--mono);letter-spacing:3px;color:var(--accent)}:root[data-theme="light"] .home-part h3{font:400 27px/1.15 var(--display)}:root[data-theme="light"] .home-part p{color:var(--text2);font:15.5px/1.55 var(--serif)}:root[data-theme="light"] .home-part .go{font:13px var(--mono);letter-spacing:2.4px;color:var(--accent)}
+:root[data-theme="light"] .home-month h2{font:15px var(--mono);letter-spacing:4px;color:var(--muted)}:root[data-theme="light"] .home-month h4{font:italic 22px var(--display);color:var(--hot)}
+:root[data-theme="light"] .home-cols .hn{font:13px var(--mono);color:var(--muted)}:root[data-theme="light"] .home-cols .ht{font:15.5px var(--serif);color:var(--text)}:root[data-theme="light"] .home-cols .hv{font:400 21px var(--display);color:var(--text)}
+:root[data-theme="light"] .home-cols button:hover{background:var(--panel2)}
+:root[data-theme="light"] .home-notice .rule{border-top:3px double var(--line)}
+:root[data-theme="light"] .home-notice p{font:13.5px/1.6 var(--serif);color:var(--text2)}:root[data-theme="light"] .home-notice p b{font:14px var(--mono);letter-spacing:1.4px;font-weight:400;color:var(--text)}
+
+/* ---------- dark academic theme: the same title page in ink ---------- */
+:root:not([data-theme="light"]) .home-mast{border-bottom:1px solid var(--line)}
+:root:not([data-theme="light"]) .home-mast span{font:10px var(--mono);letter-spacing:1.6px;color:var(--muted)}
+:root:not([data-theme="light"]) .home-title,:root:not([data-theme="light"]) .home-part,:root:not([data-theme="light"]) .home-month{background:var(--panel);border:1px solid var(--line2);border-radius:3px}
+:root:not([data-theme="light"]) .home-title{background:radial-gradient(ellipse at 50% 0%,#16212d 0,var(--panel) 65%)}
+:root:not([data-theme="light"]) .home-title::before,:root:not([data-theme="light"]) .home-title::after{border-color:var(--accent);opacity:.55;width:40px;height:40px}
+:root:not([data-theme="light"]) .home-kicker{font:11px var(--mono);letter-spacing:4px;color:var(--muted)}
+:root:not([data-theme="light"]) .home-title h1{font:500 98px/1 var(--serif);letter-spacing:-1.5px;color:var(--text)}
+:root:not([data-theme="light"]) .home-sub{font:italic 23px/1.4 var(--serif);color:var(--text2)}
+:root:not([data-theme="light"]) .home-orn{align-items:flex-end}:root:not([data-theme="light"]) .home-orn i{border-top:1px solid var(--line);margin-bottom:1px}
+:root:not([data-theme="light"]) .home-ornlab{font:9px var(--mono);letter-spacing:1.6px;color:var(--muted);margin-top:-14px}.home-ornlab .c{color:#8dbcf2}.home-ornlab .h{color:#ff9a5c}
+:root:not([data-theme="light"]) .home-compiled{font:11px var(--mono);letter-spacing:2.4px;color:var(--muted)}:root:not([data-theme="light"]) .home-compiled b{font:500 16px var(--serif);letter-spacing:0;color:var(--text)}
+:root:not([data-theme="light"]) .home-by{gap:60px}:root:not([data-theme="light"]) .home-by b{font:500 21px var(--serif)}:root:not([data-theme="light"]) .home-by span{font:italic 14.5px var(--serif);color:var(--text2)}
+:root:not([data-theme="light"]) .home-btn{font:600 11.5px var(--mono);letter-spacing:1px;border-radius:4px;padding:11px 16px;color:var(--text2)}
+:root:not([data-theme="light"]) .home-part::before{content:'';position:absolute;left:0;top:0;right:0;height:2px;background:var(--accent);opacity:.7}
+:root:not([data-theme="light"]) .home-part:nth-child(2)::before{background:#d4722c}:root:not([data-theme="light"]) .home-part:nth-child(3)::before{background:var(--acad)}
+:root:not([data-theme="light"]) .home-part .no{font:10px var(--mono);letter-spacing:2px;color:var(--accent)}:root:not([data-theme="light"]) .home-part h3{font:500 25px/1.18 var(--serif)}:root:not([data-theme="light"]) .home-part p{color:var(--text2);font-size:14.5px}:root:not([data-theme="light"]) .home-part .go{font:10px var(--mono);letter-spacing:1.8px;color:var(--accent)}
+:root:not([data-theme="light"]) .home-month h2{font:10px var(--mono);letter-spacing:3px;color:var(--muted)}:root:not([data-theme="light"]) .home-month h4{font:500 21px var(--serif);color:#ff9a5c}
+:root:not([data-theme="light"]) .home-cols .hn{font:11px var(--mono);color:var(--text3)}:root:not([data-theme="light"]) .home-cols .ht{font-size:14.5px;color:var(--text)}:root:not([data-theme="light"]) .home-cols .hv{font:13px var(--mono);color:#ff9a5c}
+:root:not([data-theme="light"]) .home-cols button:hover{background:var(--panel2)}
+:root:not([data-theme="light"]) .home-notice .rule{border-top:1px solid var(--line)}
+:root:not([data-theme="light"]) .home-notice p{font:12.5px/1.6 var(--sans);color:var(--text3)}:root:not([data-theme="light"]) .home-notice p b{color:var(--text2);font-weight:600}
+/* the footer carries the copyright line on every board: upright, not italic */
+:root[data-theme="light"] .foot{font:13px var(--serif);font-style:normal}
+.home-cols button{grid-template-columns:44px 1fr 48px}
+:root:not([data-theme="light"]) .home-btn.primary{color:var(--accent-ink)}
+:root:not([data-theme="light"]) .home-part p{line-height:1.6}
