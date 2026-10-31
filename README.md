@@ -38,15 +38,17 @@ The AI assistant needs internet access and your own model connection. Links to Y
 
 The AI assistant helps researchers examine how their own research questions relate to practitioner concerns and existing research. For one English question, it summarizes how practitioners discuss the issue in retrieved podcast quotes and how retrieved papers have studied it. The assessment brings both sources together and links to the supporting evidence. Use it as a starting point for assessing the question’s practical relevance and potential, and for identifying practitioner problems related to your interests.
 
-Retrieval and assessment follow a predefined workflow and response structure within the Atlas. The Codex connection runs this workflow. It does not provide an interface for an external agent to explore the Atlas independently.
+Retrieval and assessment follow a predefined workflow and response structure within the Atlas. The CLI connections run this workflow. They do not provide an interface for an external agent to explore the Atlas independently.
 
-Open **Ask → AI assistant → Your AI connection** and choose one of two methods.
+Open **Ask → AI assistant → Your AI connection**. Choose **ChatGPT (OpenAI)** or **Claude**, then **API key** or **Use local CLI**. Only these two platforms are supported.
 
-**API key.** Choose your provider, enter its HTTPS API base URL, a model ID available to your account, and your API key. The provider must support the OpenAI-compatible Chat Completions API and JSON output. Then type an English question and click **Assess**. API usage is billed by your provider. Not every model or provider implements this interface.
+**API key.** Enter a text model ID available to your API account and your API key. The official API address is filled automatically and cannot be edited. OpenAI uses `https://api.openai.com/v1`; Claude uses `https://api.anthropic.com/v1`. Links beside each field show where to find the values. Then enter an English research question and click **Assess**. Usage follows the API account's billing and credits.
 
-**Codex CLI.** Install a current [Codex CLI](https://developers.openai.com/codex/cli/) and run `codex login` in a terminal. In Atlas, click **Connect installed Codex CLI**. Atlas checks that login, then uses `codex exec` for your assessment. With ChatGPT sign-in, your available Codex allowance applies. With API sign-in, API billing applies. Other agent subscriptions are not supported by this adapter. Atlas does not install Codex or change your login.
+For OpenAI, create a key in the [API dashboard](https://platform.openai.com/api-keys) and copy an API model ID from the [official model list](https://developers.openai.com/api/docs/models). For Claude, create a workspace API key in [Claude Console](https://platform.claude.com/settings/keys) and copy the Claude API ID from the [official model list](https://platform.claude.com/docs/en/models/overview). The examples in the form are examples, not automatic model selections. The selected model must support the request format: Chat Completions with JSON output for OpenAI, and strict JSON schema output through Anthropic's [OpenAI SDK compatibility endpoint](https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/openai-sdk) for Claude. Cloud gateways and unscoped Anthropic personal or service account keys are not supported by this form.
 
-The CLI adapter sends the same selected evidence and assessment prompt as the API adapter. It uses a temporary working folder, ephemeral mode, a read-only sandbox, shell tools disabled and a structured output schema. It ignores project configuration. Update Codex if it does not support these options.
+**Use local CLI.** For ChatGPT, install [Codex CLI](https://developers.openai.com/codex/cli/) and run `codex login`. For Claude, install [Claude Code](https://code.claude.com/docs/en/quickstart) and run `claude auth login`. Select the platform in Atlas and click **Connect Codex CLI** or **Connect Claude Code**. No API key, address or model ID is needed in the form. Atlas uses the CLI's default model. Subscription allowance or API billing follows the CLI's sign-in method and account limits. Atlas does not install software or change your login.
+
+Both CLI adapters receive the selected evidence and assessment prompt in a temporary working folder and request structured output without saving a CLI conversation. Codex uses a read-only sandbox with shell and web search disabled. Claude Code disables built-in tools, MCP tools, hooks and slash commands, and does not load user or project settings. Update the CLI if it does not support the required options. CLI authentication uses the existing installation; API keys and alternate provider URLs from the Atlas server environment are not passed to the Claude Code assessment process.
 
 Assessments compare 30 retrieved podcast quotes and 20 retrieved papers. The numerical calculations and thresholds are unchanged from the website. Different models can produce different judgments and paper ratings. An incomplete set of paper ratings is rejected rather than displayed as a zero count.
 
@@ -54,7 +56,7 @@ Assessments compare 30 retrieved podcast quotes and 20 retrieved papers. The num
 
 - Your API key is not written to disk, browser storage, result caches or logs by Atlas. It remains in the current tab and is sent through the local server to the provider you selected when you click Assess. **Clear key** removes it from the field. Reloading the page clears it too.
 - The selected provider receives your question, selected quotes and paper abstracts. Its own retention and billing policies apply.
-- Codex uses credentials managed by your existing Codex installation. Atlas does not copy them. Codex sends the selected evidence to its configured service.
+- Each CLI uses credentials managed by its existing installation. Atlas does not copy them. The CLI sends the selected evidence to its service.
 - Completed assessments are stored in `.runtime/answers.sqlite` on your computer. The same question and connection settings reuse a saved result. The API key is excluded from the cache key and the stored answer. Clear this database after stopping Atlas if you want fresh assessments or want to remove your question history.
 - The server listens only on `127.0.0.1`. It rejects other Host headers and cross-origin requests. It is intended for your local browser. Do not publish it through a tunnel or change it into a public server.
 - The website's hosted accounts, passwords, provider credentials and private server settings are not included. Public API and MCP endpoints remain unavailable.
@@ -69,7 +71,7 @@ Run the full asset check after extracting:
 .\.venv\Scripts\python.exe -I verify_assets.py
 ```
 
-On macOS or Linux, use `.venv/bin/python -I verify_assets.py`. Run the offline credential and server-boundary checks with the same Python executable and `-I tests/test_local.py`.
+On macOS or Linux, use `.venv/bin/python -I verify_assets.py`. Run all offline connection, server-boundary and installer tests with the same Python executable and `-I -m unittest discover -s tests -v`.
 
 Installed data and model files occupy about 3.6 GB, plus the environment and retained download cache. Runtime ZIPs are also available on the release page. If automatic downloads are unavailable, place both runtime ZIPs in one folder and run the installed Python with `-I prepare_runtime.py --asset-dir "PATH_TO_THAT_FOLDER"`. You do not need to extract those two ZIPs manually. The model snapshot is `BAAI/bge-m3`, revision `5617a9f61b028005a4858fdac845db406aefb181`. Runtime data were copied unchanged from website release `20261030_190724`. Trend now always uses a shared scale within each series.
 

@@ -59,7 +59,10 @@ async def search(request):
     except ValueError as e:return error(str(e))
     except Exception:return error('Search could not finish. Verify the local runtime assets.',500)
 
-async def cli_status(request):return response(await run_in_threadpool(local_models.codex_status))
+async def cli_status(request):
+    provider=request.query_params.get('provider','openai')
+    if provider not in ('openai','anthropic'):return error('Choose OpenAI or Claude.')
+    return response(await run_in_threadpool(local_models.codex_status if provider=='openai' else local_models.claude_status))
 
 async def assess(request):
     if not available():return error('The local search index is still loading.',503)
