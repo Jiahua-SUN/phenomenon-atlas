@@ -17,13 +17,13 @@ class LocalTests(unittest.TestCase):
         fake.choices[0].message.content='{"test":true}'
         with patch('openai.OpenAI') as Client:
             Client.return_value.__enter__.return_value.chat.completions.create.return_value=fake
-            raw,usage=local_models.generate('system',{'question':'Example'}, {'mode':'api','base_url':'https://example.org/v1','model':'example','api_key':'TEST-KEY'})
+            raw,usage=local_models.generate('system',{'question':'Example'}, {'mode':'api','base_url':'https://api.openai.com/v1','model':'example','api_key':'TEST-KEY'})
             self.assertEqual(Client.call_args.kwargs['api_key'],'TEST-KEY')
             self.assertEqual(usage['tokens_in'],100);self.assertNotIn('TEST-KEY',str(usage));self.assertEqual(raw,'{"test":true}')
 
     def test_provider_error_redacted(self):
         with patch('openai.OpenAI',side_effect=Exception('secret key TEST-KEY')):
-            with self.assertRaises(local_models.ModelError) as result:local_models.generate('system',{}, {'mode':'api','base_url':'https://example.org/v1','model':'example','api_key':'TEST-KEY'})
+            with self.assertRaises(local_models.ModelError) as result:local_models.generate('system',{}, {'mode':'api','base_url':'https://api.openai.com/v1','model':'example','api_key':'TEST-KEY'})
         self.assertNotIn('TEST-KEY',str(result.exception))
 
     def test_cancel_before_provider_call(self):
