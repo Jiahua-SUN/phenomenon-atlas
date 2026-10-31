@@ -24,7 +24,7 @@ window.atlasLocal = (() => {
       <div id="localCodex" hidden><p>Use Codex CLI installed and signed in on this computer. ChatGPT sign-in uses your plan's available Codex allowance. API sign-in follows API billing. A subscription to another agent is not connected here.</p>
         <button type="button" class="primary-btn" id="localCheck">Connect installed Codex CLI</button> <span id="localCliStatus" role="status"></span>
         <p class="local-note">If needed, <a href="https://developers.openai.com/codex/cli/" target="_blank" rel="noopener">install Codex CLI</a>, run <code>codex login</code> in a terminal, then connect here. Atlas sends the question and selected evidence through your CLI. It does not copy your credentials. Each assessment runs in a temporary folder with shell tools disabled.</p></div>
-      <p class="local-note">AI requires internet access. Results are saved only on this computer and reused for the same question and connection. Search uses the included model and needs no API key.</p>`;
+      <p class="local-note">Your model interprets the quotes and papers retrieved for your question. AI requires internet access. Results are saved only on this computer and reused for the same question and connection settings. Responses and paper ratings may differ across models. Search uses the included model and needs no API key.</p>`;
     q('#assessCompose').before(box);
     box.querySelectorAll('[data-local-mode]').forEach(b => b.onclick = () => {
       box.dataset.mode = b.dataset.localMode;

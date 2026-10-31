@@ -49,14 +49,14 @@
     {t: '#rankQuad', title: 'The quadrant', text: 'Bottom right holds topics discussed a lot in podcasts but studied little in papers. Top left holds topics well studied in papers but rarely discussed in podcasts now. A circle opens its topic when clicked.'},
     {t: nav('ask'), title: 'Ask', text: 'The last board takes your own question. Click Ask.', act: () => state.board === 'ask'},
     {t: '#paneSearch .ask-ex', init: () => { if (!pane('search')) { const c = $('.ask-card[data-mode="search"]'); if (c) c.click(); } }, title: 'Search',
-      text: 'Search finds the topics closest to what you are interested in. It needs no account. Click an example to try it.',
+      text: 'Enter a topic, research question or a few sentences to find related topics. Search needs no account. Click an example to try it.',
       act: () => shown($('#askResults')) && !!$('#tList li')},
     {t: '#tList', title: 'Topics', text: 'Each result is a topic, with its closest core question and its numbers. A topic name opens the topic’s page with its quotes and papers.'},
-    {t: '.ask-card[data-mode="assess"]', title: 'AI assistant', text: 'The AI assistant gives a judgment on one question in English: whether it is discussed in podcasts and how much, and whether it has been studied in papers, with the quotes and papers behind the judgment. Click its card.',
+    {t: '.ask-card[data-mode="assess"]', title: 'AI assistant', text: 'The AI assistant helps you examine how a research question relates to practitioner concerns and existing research. It summarizes retrieved quotes and papers to support an initial assessment of the question’s potential. Click its card.',
       act: () => pane('assess')},
-    {t: '#paneAssess', title: 'Using the assistant', text: 'Connect your API key or Codex CLI above the question. AI needs internet access. While it works, the Assess button becomes Stop. The same question asked again gets the saved answer at once.'},
+    {t: '#paneAssess', title: 'Using the assistant', text: 'Connect your API key or Codex CLI above the question. AI needs internet access. While it works, the Assess button becomes Stop. The same question and connection settings reuse the answer saved on this computer. Responses and paper ratings may differ across models.'},
     {t: '#helpBtn', title: 'Help on every board', text: 'Each board has this link under its title. It explains what the figures on the board mean.'},
-    {t: '#methodBtn', title: 'Method', text: 'Method explains how the atlas was built. You can take this tour again from the home page or from Method.', last: true}];
+    {t: '#methodBtn', title: 'Method', text: 'Method explains how the Atlas was built. You can take this tour again from the home page or from Method.', last: true}];
 
   let on = false, k = -1, cur = null, el = null, raf = 0, poll = 0, wait = 0, glideT = 0, ui = null, lastKey = '';
   function build() {

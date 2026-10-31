@@ -137,14 +137,14 @@ async function showTopicPage(id) {
   pg.querySelector('.pane-tabs [data-pane=questions]').innerHTML = paneLabel('Questions', (f.questions || []).length);
   pg.querySelector('.pane-tabs [data-pane=papers]').innerHTML = paneLabel('Papers', (f.papers || []).length);
 }
-// one core question with everything the atlas has on it: who asks it, its topic, the episodes per month, every quote, every linked paper and
+// one core question with everything the Atlas has on it: who asks it, its topic, the episodes per month, every quote, every linked paper and
 // the other questions of the topic
 async function showQuestionPage(qid) {
   const tid = qid.split('_')[0], t = state.byId[tid]; if (!t) return; const top = enterPage(qid, 'Core question'), pg = $('#topicPage');
   pg.innerHTML = top + '<p class="pending">Loading…</p>'; $('#tpBack').onclick = leaveTopicPage;
   const f = await topicFile(tid); if (state.pageToken !== qid || pg.hidden) return;
   const q = f && (f.questions || []).find(x => x.question_id === qid);
-  if (!q) { pg.innerHTML = top + '<p class="pending">This question is not in the atlas.</p>'; $('#tpBack').onclick = leaveTopicPage; return; }
+  if (!q) { pg.innerHTML = top + '<p class="pending">This question is not in the Atlas.</p>'; $('#tpBack').onclick = leaveTopicPage; return; }
   document.title = (q.question.length > 70 ? q.question.slice(0, 68) + '…' : q.question) + ' · Phenomenon Atlas';
   const ev = q.evidence || [], ps = q.papers || [], core = ps.filter(p => p.relevance >= CORE_REL).length, others = (f.questions || []).filter(x => x.question_id !== qid);
   const perMonth = state.meta.months.map(m => ev.filter(e => String(e.date || '').slice(0, 7) === m).length);

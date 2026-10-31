@@ -6,8 +6,8 @@
   // entry cards (UI round 2026-10-24): the whole card is a button; titles say what the board does, not a question
   const PARTS = [['map', 'Map', 'See which topics were discussed most in podcasts each month, grouped by research field.', 'Open the map →'],
                  ['gap', 'Gap', 'Compare how often a topic comes up in podcasts with how many journal papers study it.', 'Compare practice and research →'],
-                 ['ask', 'Ask', 'Find the topics closest to what you are interested in, or ask the AI assistant for a judgment on one question.', 'Ask a question →']];
-  const LEGAL = [['Third-party material', 'Podcast transcripts and quotations remain the property of their creators and publishers; the atlas shows short, attributed excerpts for non-commercial academic research and commentary, and full transcripts are accessible only inside the authors’ research environment. Article titles, abstracts and bibliographic records remain the property of their publishers (Academy of Management; SAGE Publications; Wiley on behalf of the Strategic Management Society; INFORMS). Audience figures are retrieved through the YouTube Data API.'],
+                 ['ask', 'Ask', 'Find topics related to your interests, or use the AI assistant to examine how your research question relates to practitioner concerns and existing research.', 'Ask a question →']];
+  const LEGAL = [['Third-party material', 'Podcast transcripts and quotations remain the property of their creators and publishers; the Atlas shows short, attributed excerpts for non-commercial academic research and commentary, and full transcripts are accessible only inside the authors’ research environment. Article titles, abstracts and bibliographic records remain the property of their publishers (Academy of Management; SAGE Publications; Wiley on behalf of the Strategic Management Society; INFORMS). Audience figures are retrieved through the YouTube Data API.'],
                  ['Machine-generated content', 'Topic names, problem statements, core questions and assessments are produced with language models and checked against verbatim quotes, but may contain errors; they are not statements by the podcast guests or by the authors of the cited articles.'],
                  ['Corrections and removal', 'Rights holders who wish material to be corrected or removed may contact the authors.']];
 
@@ -55,7 +55,7 @@
       <section class="home-lists">
         <div class="home-list"><h2>Most discussed in podcasts, ${esc(mlabel)}</h2><p class="home-list-sub">The ten topics raised in the most podcast episodes. Click one to open it.</p><ol>${hd('Topic', 'Episodes')}${hot.map(row).join('')}</ol></div>
         ${rise.length ? `<div class="home-list"><h2>Rising fastest in podcasts, ${esc(mlabel)}</h2><p class="home-list-sub">The largest rise on ${esc(plabel)}, among topics raised in at least ${RISE_MIN} episodes in ${esc(mlabel)}. Click one to open it.</p><ol>${hd('Topic', 'Change in episodes')}${rise.map(rrow).join('')}</ol></div>` : ''}</section>
-      <section class="home-notice">${LEGAL.map(([k, v]) => `<p><b>${k}.</b> ${v}</p>`).join('')}<p><button type="button" class="text-btn" data-act="method">How the atlas was built →</button></p></section>
+      <section class="home-notice">${LEGAL.map(([k, v]) => `<p><b>${k}.</b> ${v}</p>`).join('')}<p><button type="button" class="text-btn" data-act="method">How the Atlas was built →</button></p></section>
     </div>`;
     const cv = h.querySelector('#homeSpec'); if (cv) { drawSpec(cv, M); bindSpec(cv, mlabel); } // drawn at once (reading clientWidth lays the page out), so it also appears in a background tab
     h.querySelectorAll('[data-go]').forEach(e => { e.onclick = () => go(e.dataset.go); });

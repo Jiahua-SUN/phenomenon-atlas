@@ -24,23 +24,23 @@
     board.innerHTML = `
       <div class="ask-guide" role="tablist" aria-label="Choose a function">
         <button type="button" role="tab" class="ask-card" data-mode="search" aria-selected="true"><span class="n">Search</span><b>The topics closest to what you are interested in.</b>
-          <span>You type a topic you are interested in. You get up to 10 of the atlas's topics that come closest to it, each with its closest core question. Open a topic for its podcast quotes and papers.</span>
+          <span>Enter a topic, research question or a few sentences. Search returns up to 10 of the Atlas's closest topics, each with its closest core question. Open a topic to inspect its podcast quotes and papers.</span>
           <small>Local search · no API key · podcasts from January to October 2026</small></button>
-        <button type="button" role="tab" class="ask-card" data-mode="assess" aria-selected="false"><span class="n">AI assistant</span><b>A judgment on one question.</b>
-          <span>You type one question in English. You learn whether it is discussed in podcasts and how much compared with other topics, and whether it has been studied in papers, with the quotes and papers behind the judgment.</span>
+        <button type="button" role="tab" class="ask-card" data-mode="assess" aria-selected="false"><span class="n">AI assistant</span><b>Explore the potential of a research question.</b>
+          <span>Enter one research question in English. The assistant summarizes how practitioners discuss the issue and how retrieved papers have studied it. Use the evidence and assessment to consider the question’s potential.</span>
           <small>Your API key or Codex CLI · internet required</small></button>
       </div>
       <div class="ask2-pane" id="paneSearch">
-        <div class="ask-input"><label class="lab" for="askText">Type a topic you are interested in</label>
+        <div class="ask-input"><label class="lab" for="askText">Enter a topic, research question or a few sentences</label>
           <textarea id="askText" rows="3" maxlength="4000" spellcheck="false" placeholder="${esc(SEARCH_EX[0][1])}"></textarea>
           <div class="ask-actions"><button id="askRun" class="primary-btn">Search</button><span id="askStatus" class="ask-status"></span></div>
           <div class="ask-examples"><span>Examples</span>${SEARCH_EX.map(e => `<button class="ask-ex" data-q="${esc(e[1])}">${esc(e[0])}</button>`).join('')}</div></div>
         <div id="askResults" hidden><p class="s-sum" id="sSum"></p><ol class="ts-list" id="tList"></ol>
-          <p class="ask-foot">The bar beside each topic shows how close it is to your text. The list is ordered by text similarity and makes no judgment. Open a topic for its core questions, podcast quotes and papers. For a judgment, use the AI assistant.</p></div>
+          <p class="ask-foot">The bar beside each topic shows how close it is to your text. The list is ordered by text similarity and makes no judgment. Open a topic for its core questions, podcast quotes and papers. For an assessment based on quotes and papers, use the AI assistant.</p></div>
       </div>
       <div class="ask2-pane" id="paneAssess" hidden>
         <div class="chat-gate" id="assessGate" hidden></div>
-        <div class="ask-input" id="assessCompose"><label class="lab" for="assessText">Type one question in English</label>
+        <div class="ask-input" id="assessCompose"><label class="lab" for="assessText">Enter one research question in English</label>
           <textarea id="assessText" rows="3" maxlength="1500" spellcheck="true" placeholder="${esc(ASSESS_EX[0])}"></textarea>
           <div class="ask-actions"><button id="assessRun" class="primary-btn">Assess</button><span id="assessStatus" class="ask-status"></span><span id="assessQuota" class="ask-status"></span></div>
           <div class="ask-examples"><span>Examples</span>${ASSESS_EX.map(e => `<button class="ask-ex" data-q="${esc(e)}">${esc(e.length > 64 ? e.slice(0, 62) + '…' : e)}</button>`).join('')}</div></div>
@@ -92,9 +92,9 @@
     try {
       const out = await post('api/search', {query: text}); q('#askResults').hidden = false;
       const M = state.meta.last_full_month, ML = (state.meta.periods.find(p => p.id === M) || {}).label || M, n = out.topics.length, cut = (+out.threshold).toFixed(2);
-      q('#sSum').innerHTML = out.weak ? `No topic comes close to your text (score ${cut} or more). These are the ${n} closest of the atlas's ${fmt(out.topics_total)} topics, shown as weak matches.`
-        : out.passing > n ? `<b>${fmt(out.passing)}</b> of the atlas's ${fmt(out.topics_total)} topics come close to your text (score ${cut} or more). The best ${n} are shown, best first.`
-        : `<b>${n}</b> of the atlas's ${fmt(out.topics_total)} topics ${n === 1 ? 'comes' : 'come'} close to your text (score ${cut} or more), best first.`;
+      q('#sSum').innerHTML = out.weak ? `No topic comes close to your text (score ${cut} or more). These are the ${n} closest of the Atlas's ${fmt(out.topics_total)} topics, shown as weak matches.`
+        : out.passing > n ? `<b>${fmt(out.passing)}</b> of the Atlas's ${fmt(out.topics_total)} topics come close to your text (score ${cut} or more). The best ${n} are shown, best first.`
+        : `<b>${n}</b> of the Atlas's ${fmt(out.topics_total)} topics ${n === 1 ? 'comes' : 'come'} close to your text (score ${cut} or more), best first.`;
       q('#tList').innerHTML = out.topics.map((x, i) => topicItem(x, i, M, ML, out.weak)).join('');
       st.textContent = `Done in ${((performance.now() - t0) / 1000).toFixed(1)} s. No AI was used.`;
       q('#askResults').scrollIntoView({block: 'start', behavior: 'smooth'});
@@ -135,8 +135,8 @@
     const topic = P.topic_id && typeof openTopicPage === 'function' ? `<a href="#topic/${esc(P.topic_id)}" class="as-topic" data-topic="${esc(P.topic_id)}">${esc(P.topic)}</a>` : esc(P.topic || '');
     const pnum = P.level === 'not' ? `No episode raises a problem closely related to your question (similarity 0.60 or more), out of ${fmt(P.episodes_total)}.`
       : P.level === 'rarely' ? `Raised directly in only ${fmt(P.episodes)} of ${fmt(P.episodes_total)} episodes, from ${fmt(P.programmes)} ${P.programmes === 1 ? 'show' : 'shows'}.`
-      : `Raised directly in ${fmt(P.episodes)} of ${fmt(P.episodes_total)} episodes (${(100 * P.episodes / P.episodes_total).toFixed(1)}%), from ${fmt(P.programmes)} shows. Most of them fall under the topic ${topic}, which has more episodes than ${Math.round(P.topic_pct)}% of the atlas's ${fmt(P.topics_total)} topics.`;
-    const rs = R.reference_share, rref = rs ? ` For comparison, of the atlas's ${fmt(R.reference_questions)} core questions, ${rs['0'] ?? 0}% have no paper rated 85 or more, ${rs['1'] ?? 0}% have one, ${rs['2'] ?? 0}% have two and ${(rs['3'] ?? 0) + (rs['4'] ?? 0)}% have three or more.` : '';
+      : `Raised directly in ${fmt(P.episodes)} of ${fmt(P.episodes_total)} episodes (${(100 * P.episodes / P.episodes_total).toFixed(1)}%), from ${fmt(P.programmes)} shows. Most of them fall under the topic ${topic}, which has more episodes than ${Math.round(P.topic_pct)}% of the Atlas's ${fmt(P.topics_total)} topics.`;
+    const rs = R.reference_share, rref = rs ? ` For comparison, of the Atlas's ${fmt(R.reference_questions)} core questions, ${rs['0'] ?? 0}% have no paper rated 85 or more, ${rs['1'] ?? 0}% have one, ${rs['2'] ?? 0}% have two and ${(rs['3'] ?? 0) + (rs['4'] ?? 0)}% have three or more.` : '';
     const rnum = (R.related
       ? `${R.related} of the ${R.considered} papers closest to your question are related to it (rated 60 or more out of 100), and ${R.core} of them study the same question or mechanism (85 or more). ${R.related === 1 ? 'It is' : `All ${R.related} are`} listed below, highest rated first.`
       : `None of the ${R.considered} papers closest to your question is related to it (rated 60 or more out of 100).`) + ` The papers come from ${fmt(R.papers_total)} articles in seven journals.${rref}`;
