@@ -36,6 +36,10 @@ The AI assistant needs internet access and your own model connection. Links to Y
 
 ## AI assistant
 
+The AI assistant helps researchers examine how their own research questions relate to practitioner concerns and existing research. For one English question, it summarizes how practitioners discuss the issue in retrieved podcast quotes and how retrieved papers have studied it. The assessment brings both sources together and links to the supporting evidence. Use it as a starting point for assessing the question’s practical relevance and potential, and for identifying practitioner problems related to your interests.
+
+Retrieval and assessment follow a predefined workflow and response structure within the Atlas. The Codex connection runs this workflow. It does not provide an interface for an external agent to explore the Atlas independently.
+
 Open **Ask → AI assistant → Your AI connection** and choose one of two methods.
 
 **API key.** Choose your provider, enter its HTTPS API base URL, a model ID available to your account, and your API key. The provider must support the OpenAI-compatible Chat Completions API and JSON output. Then type an English question and click **Assess**. API usage is billed by your provider. Not every model or provider implements this interface.
