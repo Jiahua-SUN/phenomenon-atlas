@@ -28,7 +28,7 @@
           <small>Local search · no API key · podcasts from January to October 2026</small></button>
         <button type="button" role="tab" class="ask-card" data-mode="assess" aria-selected="false"><span class="n">AI assistant</span><b>Explore the potential of a research question.</b>
           <span>Enter one research question in English. The assistant summarizes how practitioners discuss the issue and how retrieved papers have studied it. Use the evidence and assessment to consider the question’s potential.</span>
-          <small>Your API key or Codex CLI · internet required</small></button>
+          <small>OpenAI or Claude · API key or local CLI · internet required</small></button>
       </div>
       <div class="ask2-pane" id="paneSearch">
         <div class="ask-input"><label class="lab" for="askText">Enter a topic, research question or a few sentences</label>

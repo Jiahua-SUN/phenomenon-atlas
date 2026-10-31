@@ -54,7 +54,7 @@
     {t: '#tList', title: 'Topics', text: 'Each result is a topic, with its closest core question and its numbers. A topic name opens the topic’s page with its quotes and papers.'},
     {t: '.ask-card[data-mode="assess"]', title: 'AI assistant', text: 'The AI assistant helps you examine how a research question relates to practitioner concerns and existing research. It summarizes retrieved quotes and papers to support an initial assessment of the question’s potential. Click its card.',
       act: () => pane('assess')},
-    {t: '#paneAssess', title: 'Using the assistant', text: 'Connect your API key or Codex CLI above the question. AI needs internet access. While it works, the Assess button becomes Stop. The same question and connection settings reuse the answer saved on this computer. Responses and paper ratings may differ across models.'},
+    {t: '#paneAssess', title: 'Using the assistant', text: 'Choose OpenAI or Claude above the question, then connect with an API key or local CLI. AI needs internet access. While it works, the Assess button becomes Stop. The same question and connection settings reuse the answer saved on this computer. Responses and paper ratings may differ across models.'},
     {t: '#helpBtn', title: 'Help on every board', text: 'Each board has this link under its title. It explains what the figures on the board mean.'},
     {t: '#methodBtn', title: 'Method', text: 'Method explains how the Atlas was built. You can take this tour again from the home page or from Method.', last: true}];
 

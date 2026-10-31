@@ -1,8 +1,9 @@
 .local-connection{border:1px solid var(--line);border-radius:7px;padding:20px;margin:0 0 24px;max-width:100%}
 .local-connection h3{margin:0 0 14px;font-size:18px}.local-connection>.tg{margin-bottom:16px}
 .local-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px}
-.local-fields label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;min-width:0}
+.local-fields>div{min-width:0}.local-fields label{display:block;margin-bottom:6px;font-size:13px;font-weight:700}.local-wide{grid-column:1/-1}
 .local-fields input,.local-fields select{width:100%;min-width:0;padding:10px;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:4px}
 .local-note{font-size:13px;line-height:1.6;color:var(--muted);margin:12px 0 0}.local-connection a{color:var(--text)}
-#localCliStatus{display:block;margin:12px 0;font-size:14px}#localCodex p{line-height:1.6}
+#localCliStatus{display:block;margin:12px 0;font-size:14px}#localCli p{line-height:1.6}
+.local-step{font-size:13px;font-weight:700;margin:16px 0 8px}.local-hint{font-size:12px;line-height:1.55;color:var(--muted);margin:7px 0 0;overflow-wrap:anywhere}.local-hint code{font-size:inherit}.local-fields input[readonly]{color:var(--muted);background:var(--bg)}.local-cli-steps{font-size:14px;line-height:1.8;padding-left:22px}.local-connection .tg{display:inline-flex;max-width:100%;flex-wrap:wrap}
 @media(max-width:600px){.local-fields{grid-template-columns:1fr}.local-connection{padding:14px}}
