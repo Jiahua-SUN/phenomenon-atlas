@@ -34,8 +34,28 @@ def stop():
     if os.name == 'nt':
         subprocess.run(['taskkill','/PID',str(PROC.pid),'/T','/F'], capture_output=True)
     else:
-        try: os.killpg(PROC.pid, signal.SIGTERM)
-        except ProcessLookupError: pass
+        # uv may place Python in a separate process group. Stop only descendants
+        # of our launcher, then wait for their listening socket to close.
+        rows=subprocess.check_output(['ps','-axo','pid=,ppid='],text=True).splitlines()
+        parents={int(row.split()[0]):int(row.split()[1]) for row in rows}
+        owned={PROC.pid}
+        while True:
+            expanded=owned | {pid for pid,ppid in parents.items() if ppid in owned}
+            if expanded==owned: break
+            owned=expanded
+        for pid in sorted(owned,reverse=True):
+            try: os.kill(pid,signal.SIGTERM)
+            except ProcessLookupError: pass
+        for _ in range(50):
+            remaining=[]
+            for pid in owned-{PROC.pid}:
+                try: os.kill(pid,0);remaining.append(pid)
+                except ProcessLookupError: pass
+            if not remaining: break
+            time.sleep(0.1)
+        for pid in remaining:
+            try: os.kill(pid,signal.SIGKILL)
+            except ProcessLookupError: pass
     try: PROC.wait(timeout=15)
     except subprocess.TimeoutExpired:
         if os.name != 'nt':
@@ -99,7 +119,7 @@ def main():
         assert ready, 'Installation or model loading exceeded 30 minutes'
         REPORT['steps']['cold_install_ready']={'seconds':round(time.monotonic()-started,1),'index':ready['index']}
         save()
-        python=root/('.venv/Scripts/python.exe' if os.name=='nt' else '.venv/bin/python')
+        python=root/('.venv/Scripts/python.exe' if os.name=='nt' else '.runtime/intel-env/bin/python' if platform.system()=='Darwin' and platform.machine()=='x86_64' else '.venv/bin/python')
         run([str(python),'-X','utf8','-I','verify_assets.py'],root,'asset_verification')
         run([str(python),'-X','utf8','-I','-m','unittest','discover','-s','tests','-p','test_*.py','-v'],root,'unit_tests')
         body=json.dumps({'query':'Founder control after outside investment'}).encode()
@@ -121,7 +141,8 @@ def main():
         uv=root/('.runtime/tools/uv.exe' if os.name=='nt' else '.runtime/tools/uv')
         with (OUT/'restart.log').open('w',encoding='utf-8') as restart_log:
             env.update(UV_OFFLINE='1',UV_CACHE_DIR=str(root/'.runtime/uv-cache'),UV_PYTHON_INSTALL_DIR=str(root/'.runtime/python'))
-            PROC=subprocess.Popen([str(uv),'run','--locked','--offline','python','-X','utf8','-I','launch.py','--no-browser'],cwd=root,stdout=restart_log,stderr=subprocess.STDOUT,env=env,start_new_session=os.name!='nt')
+            restart_cmd=[str(uv),'run','--locked','--offline','python','-X','utf8','-I','launch.py','--no-browser'] if os.name=='nt' else ['sh',str(root/'Run-Atlas-Unix.command'),'--no-browser']
+            PROC=subprocess.Popen(restart_cmd,cwd=root,stdout=restart_log,stderr=subprocess.STDOUT,env=env,start_new_session=os.name!='nt')
             started=time.monotonic()
             while time.monotonic()-started<240:
                 if PROC.poll() is not None: raise RuntimeError('Offline restart failed')
