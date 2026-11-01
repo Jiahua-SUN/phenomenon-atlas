@@ -36,7 +36,7 @@ class DiscoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             executable=Path(tmp)/'portable-codex.exe';executable.touch()
             with patch.dict(os.environ, {'ATLAS_CODEX_PATH':str(executable)}):
-                self.assertEqual(Path(local_cli.executable('codex')),executable)
+                self.assertTrue(Path(local_cli.executable('codex')).samefile(executable))
 
     def test_status_uses_the_same_profile_as_assessment(self):
         import subprocess
