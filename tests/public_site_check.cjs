@@ -56,6 +56,7 @@ const report = {site: 'https://atlas.phenomenon.page/', started: new Date().toIS
     const ar = await pendingAnswer; const a = await ar.json();
     fs.writeFileSync(path.join(out, 'assessment.json'), JSON.stringify(a, null, 2));
     assert.equal(ar.status(), 200, JSON.stringify(a));
+    if (process.env.ATLAS_EXPECT_CACHED === '1') assert(a.cached, 'Expected the saved test answer');
     assert.equal(a.research.rated, 20); assert(a.podcasts.quotes.length > 0); assert(a.overall.length > 20);
     await page.locator('#assessResult .as-res').waitFor();
     report.assistant = {status: ar.status(), seconds: (Date.now()-t)/1000, question, cached: !!a.cached, quotes: a.podcasts.quotes.length, papers_rated: a.research.rated, related_papers: a.research.related, usage: a.usage};
@@ -66,6 +67,8 @@ const report = {site: 'https://atlas.phenomenon.page/', started: new Date().toIS
     const excerpt = await context.request.get(new URL(href, report.site).href);
     assert.equal(excerpt.status(), 200); assert((await excerpt.text()).length > 300);
     report.excerpt_status = excerpt.status();
+    // These tabs are shown only at the mobile breakpoint. Desktop shows all panels.
+    await page.setViewportSize({width:390,height:844});
     for (const [name, label] of [['papers','In papers'],['overall','Overall']]) {
       await page.locator('#assessResult').getByRole('tab', {name: label, exact: true}).click();
       await shot('assistant-'+name);
