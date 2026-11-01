@@ -171,6 +171,14 @@ if __name__=='__main__':
         stop()
         assert WORK.parent==TEMP and WORK.name=='atlas-check'
         if WORK.exists(): shutil.rmtree(WORK)
+        registry=Path.home()/'.conda/environments.txt'
+        if registry.exists():
+            lines=registry.read_text().splitlines()
+            keep=[line for line in lines if not Path(line).resolve().is_relative_to(WORK)]
+            if keep!=lines:
+                if keep: registry.write_text('\n'.join(keep)+'\n')
+                else: registry.unlink()
+            assert all(not Path(line).resolve().is_relative_to(WORK) for line in keep)
         REPORT['test_files_deleted']=not WORK.exists()
         save()
         print(json.dumps(REPORT,indent=2),flush=True)
