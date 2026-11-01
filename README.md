@@ -2,7 +2,7 @@
 
 This reviewer edition runs the website on your own computer. The repository contains the application. Its launcher downloads the pinned runtime data, transcript excerpts and BGE-M3 retrieval model from this repository's release assets. You do not need the public Atlas website or an Atlas account.
 
-[Download the repository ZIP](https://github.com/Jiahua-SUN/phenomenon-atlas/archive/refs/heads/main.zip) · [Runtime release](https://github.com/Jiahua-SUN/phenomenon-atlas/releases/tag/v2.0.0) · [Public website](https://atlas.phenomenon.page/)
+[Download the repository ZIP](https://github.com/Jiahua-SUN/phenomenon-atlas/archive/refs/heads/main.zip) · [Public website](https://atlas.phenomenon.page/)
 
 > **Website access:** If the public website does not load on campus Wi-Fi, try again using mobile data or a phone hotspot. Some campus network firewalls may restrict access to newly launched websites.
 
