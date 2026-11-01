@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 import threading
 import time
+import local_cli
 
 API_BASES={'openai':'https://api.openai.com/v1','anthropic':'https://api.anthropic.com/v1'}
 
@@ -32,39 +33,25 @@ def validate(settings):
     return {'mode':mode,'provider':provider,'base_url':base,'model':model,'api_key':key}
 
 def claude_path():
-    native=Path.home()/'.local/bin/claude.exe'
-    if os.name=='nt' and native.is_file():return str(native)
-    return shutil.which('claude.exe') or shutil.which('claude') or shutil.which('claude.cmd')
+    return local_cli.executable('claude')
 
 def claude_environment():
-    env=os.environ.copy()
-    for key in list(env):
-        if key.endswith('API_KEY') or key.endswith('BASE_URL') or key.startswith('ANTHROPIC_') or key.startswith('CLAUDE_CODE_USE_') or key=='CLAUDE_CODE_OAUTH_TOKEN':
-            env.pop(key,None)
-    env['CLAUDE_CODE_SKIP_PROMPT_HISTORY']='1'
-    return env
+    return local_cli.environment('claude')
 
 def claude_status():
     exe=claude_path()
     if not exe:return {'installed':False,'logged_in':False,'message':'Install Claude Code, run claude auth login, then check again.'}
     try:
-        p=subprocess.run([exe,'--safe-mode','--setting-sources','','--settings','{"disableAllHooks":true}','auth','status'],env=claude_environment(),capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=12,**child_options())
+        p=subprocess.run([exe,'--safe-mode','--setting-sources','','--settings','{"disableAllHooks":true}','auth','status'],env=claude_environment(),cwd=str(Path.home()),capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=12,**child_options())
         data=json.loads(p.stdout)
         logged=p.returncode==0 and data.get('loggedIn') is True
         subscription=data.get('authMethod')=='claude.ai'
         return {'installed':True,'logged_in':logged,'subscription_login':subscription,
-                'message':('Connected with Claude. Your account limits apply.' if subscription else 'Connected. Billing follows your Claude Code sign-in method.') if logged else 'Run claude auth login in your terminal, then check again.'}
+                'message':('Connected with Claude. Your account limits apply.' if subscription else 'Connected. Billing follows your Claude Code sign-in method.') if logged else 'Run claude auth login in any terminal folder under the same computer account, then check again.'}
     except Exception:return {'installed':True,'logged_in':False,'message':'Claude status could not be checked. Update Claude Code and run claude auth status in a terminal.'}
 
 def codex_path():
-    # Prefer the native executable when installed through the npm distribution on Windows.
-    if os.name=='nt':
-        npm=Path(os.environ.get('APPDATA',''))/'npm/node_modules/@openai'
-        for p in npm.glob('codex*/vendor/*/codex/codex.exe'):
-            if p.is_file():return str(p)
-        for p in npm.glob('codex/node_modules/@openai/codex*/vendor/*/bin/codex.exe'):
-            if p.is_file():return str(p)
-    return shutil.which('codex.exe') or shutil.which('codex') or shutil.which('codex.cmd')
+    return local_cli.executable('codex')
 
 def child_options():
     return {'creationflags':subprocess.CREATE_NO_WINDOW} if os.name=='nt' else {'start_new_session':True}
@@ -73,10 +60,10 @@ def codex_status():
     exe=codex_path()
     if not exe:return {'installed':False,'logged_in':False,'message':'Install Codex CLI, run codex login, then check again.'}
     try:
-        p=subprocess.run([exe,'login','status'],capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=12,**child_options())
+        p=subprocess.run([exe,*local_cli.codex_options(),'login','status'],env=local_cli.environment('codex'),cwd=str(Path.home()),capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=12,**child_options())
         text=(p.stdout+p.stderr).lower()
         return {'installed':True,'logged_in':p.returncode==0,'subscription_login':'chatgpt' in text,
-                'message':('Connected with ChatGPT. Your account limits apply.' if 'chatgpt' in text else 'Connected. Billing follows your Codex sign-in method.') if p.returncode==0 else 'Run codex login in your terminal, then check again.'}
+                'message':('Connected with ChatGPT. Your account limits apply.' if 'chatgpt' in text else 'Connected. Billing follows your Codex sign-in method.') if p.returncode==0 else 'Run codex login in any terminal folder under the same computer account, then check again.'}
     except Exception:return {'installed':True,'logged_in':False,'message':'Codex status could not be checked. Try codex login status in a terminal.'}
 
 def output_schema(user):
@@ -155,14 +142,12 @@ def _codex(system,user,settings,cancel):
     with tempfile.TemporaryDirectory(prefix='atlas-assessment-') as work:
         folder=Path(work); schema=folder/'response.schema.json'; output=folder/'assessment.json'
         schema.write_text(json.dumps(output_schema(user)),encoding='utf-8')
-        cmd=[exe,'exec','--ephemeral','--ignore-user-config','--skip-git-repo-check','--sandbox','read-only',
+        cmd=[exe,'exec','--ignore-user-config',*local_cli.codex_options(),'--ephemeral','--skip-git-repo-check','--sandbox','read-only',
              '--disable','shell_tool','--disable','web_search_request','--disable','web_search_cached',
              '--output-schema',str(schema),'--output-last-message',str(output),'--color','never','-']
-        if settings['model']:cmd[2:2]=['--model',settings['model']]
+        if settings['model']:cmd[cmd.index('exec')+1:cmd.index('exec')+1]=['--model',settings['model']]
         prompt=system+'\n\nUse only the following evidence. Do not use tools or inspect files. Return the requested JSON.\n'+json.dumps(user,ensure_ascii=False)
-        env=os.environ.copy()
-        for key in list(env):
-            if key.endswith('API_KEY') or key in ('CODEX_API_KEY','OPENAI_BASE_URL'):env.pop(key,None)
+        env=local_cli.environment('codex')
         proc=subprocess.Popen(cmd,cwd=folder,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**child_options())
         result={}
         def communicate():
