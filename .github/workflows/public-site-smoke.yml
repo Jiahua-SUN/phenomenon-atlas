@@ -1,0 +1,47 @@
+name: Public website from a US network
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/public-site-smoke.yml'
+permissions:
+  contents: read
+jobs:
+  public-site:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/atlas-public-browsers
+      npm_config_cache: ${{ runner.temp }}/atlas-public-npm-cache
+    steps:
+      - name: Prepare browser test
+        shell: pwsh
+        run: |
+          $dest = Join-Path $env:RUNNER_TEMP 'atlas-public-test'
+          New-Item -ItemType Directory -Path $dest | Out-Null
+          Invoke-WebRequest "https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/$env:GITHUB_SHA/tests/public_site_check.cjs" -OutFile (Join-Path $dest 'test.cjs')
+          npm install --prefix $dest --no-audit --no-fund playwright@1.64.1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node (Join-Path $dest 'node_modules/playwright/cli.js') install chromium
+      - name: Open website and use Search and AI assistant
+        shell: pwsh
+        run: node (Join-Path $env:RUNNER_TEMP 'atlas-public-test/test.cjs')
+      - name: Preserve test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-site-us
+          path: ${{ runner.temp }}/atlas-public-evidence/
+          retention-days: 1
+      - name: Delete test files
+        if: always()
+        shell: python
+        run: |
+          import os, pathlib, shutil
+          base = pathlib.Path(os.environ['RUNNER_TEMP']).resolve()
+          for name in ('atlas-public-test', 'atlas-public-browsers', 'atlas-public-npm-cache', 'atlas-public-evidence'):
+              target = (base / name).resolve()
+              assert target.parent == base and target.name == name
+              if target.exists(): shutil.rmtree(target)
+              assert not target.exists()
+              print('Deleted test directory:', name)
