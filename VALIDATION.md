@@ -1,5 +1,15 @@
 # Validation record
 
+## Public website from US networks, 2 November 2026
+
+The public website at https://atlas.phenomenon.page passed a real browser check from standard Windows GitHub-hosted runners. Both Cloudflare and a separate IP geolocation service confirmed US exits. No account, personal AI credentials or API key was installed in the browser.
+
+The first run used Cheyenne, Wyoming. The homepage returned HTTP 200 and finished loading in 9.167 seconds. Search returned HTTP 200 with 10 topics in 1.285 seconds. One new AI question returned HTTP 200 in 18.682 seconds, with five podcast quotes, ratings for all 20 retrieved papers, eight related papers and an overall assessment. The quote-context link returned HTTP 200. The shared allowance visibly changed from 1,000 to 999. The response was not cached. The website's cost meter estimated CNY 0.0105 for that generation; this is not a provider invoice.
+
+The first test's last UI step incorrectly tried to click mobile-only tabs on a desktop viewport. The website request had already succeeded. After correcting the test, a second US runner in Boydton, Virginia passed every check, including mobile paper and overall tabs, no horizontal overflow and no page JavaScript errors. This second request reused the saved answer, as asserted by the test, and moved the allowance from 999 to 998. Only one new model answer was generated.
+
+[The initial live-answer record](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41329915085) and [the fully passing browser check](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41330356984) preserve the sequence. Both jobs passed their final file-deletion steps. Browser installations, downloaded test files, caches and evidence directories were deleted from the test machines. Small GitHub artifacts have one-day retention. These results establish access from the tested US networks; they do not establish that every campus firewall permits the website.
+
 ## US installation checks, 2 November 2026
 
 [GitHub Actions run 41327319766](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41327319766) passed on all three platforms. The tested application commit is `5e8cccb389ed44d057b5d5065df4901e606f82be`. Each machine downloaded the public source ZIP for that commit into an empty directory, ran the documented launcher, and downloaded its own Python environment and runtime assets. No previous Atlas installation or cache was used.
