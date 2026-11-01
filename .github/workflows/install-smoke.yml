@@ -6,6 +6,11 @@ on:
       - '.github/workflows/install-smoke.yml'
       - 'tests/remote_install_check.py'
       - 'tests/remote_browser_check.cjs'
+      - 'Run-Atlas-Unix.command'
+      - 'Open-Atlas-Windows.cmd'
+      - 'Setup-Atlas-PowerShell.ps1'
+      - 'pyproject.toml'
+      - 'uv.lock'
 permissions:
   contents: read
 jobs:
