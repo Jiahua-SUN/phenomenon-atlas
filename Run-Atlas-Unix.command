@@ -11,5 +11,8 @@ if [ ! -x "$UV_UNMANAGED_INSTALL/uv" ]; then
   curl --fail --location --silent --show-error https://astral.sh/uv/0.13.6/install.sh -o .runtime/uv-installer.sh
   sh .runtime/uv-installer.sh
 fi
+if [ "$(uname -s)" = Darwin ] && [ "$(uname -m)" = x86_64 ]; then
+  exec sh ./Setup-Atlas-Intel-Mac.sh "$@"
+fi
 echo 'Preparing the local environment. First launch needs an internet connection.'
 exec "$UV_UNMANAGED_INSTALL/uv" run --locked --managed-python --python 3.13 python -X utf8 -I launch.py "$@"
