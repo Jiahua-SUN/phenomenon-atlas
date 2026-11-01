@@ -1,0 +1,60 @@
+name: Public download and installation
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/install-smoke.yml'
+      - 'tests/remote_install_check.py'
+      - 'tests/remote_browser_check.cjs'
+permissions:
+  contents: read
+jobs:
+  install:
+    name: ${{ matrix.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: Windows x64
+            os: windows-2025
+          - label: Mac Apple silicon
+            os: macos-15
+          - label: Mac Intel
+            os: macos-15-intel
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 50
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download the test harness
+        shell: python
+        run: |
+          import os, pathlib, urllib.request
+          dest = pathlib.Path(os.environ['RUNNER_TEMP']) / 'atlas-harness'
+          dest.mkdir()
+          url = 'https://raw.githubusercontent.com/' + os.environ['GITHUB_REPOSITORY'] + '/' + os.environ['GITHUB_SHA'] + '/tests/remote_install_check.py'
+          urllib.request.urlretrieve(url, dest / 'run.py')
+      - name: Install and use the public ZIP
+        shell: bash
+        run: python "$RUNNER_TEMP/atlas-harness/run.py"
+      - name: Preserve small test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ matrix.os }}
+          path: ${{ runner.temp }}/atlas-evidence/
+          retention-days: 1
+          if-no-files-found: warn
+      - name: Delete test files from the machine
+        if: always()
+        shell: python
+        run: |
+          import os, pathlib, shutil
+          base = pathlib.Path(os.environ['RUNNER_TEMP']).resolve()
+          for name in ('atlas-check', 'atlas-harness', 'atlas-evidence'):
+              target = (base / name).resolve()
+              assert target.parent == base and target.name == name
+              if target.exists(): shutil.rmtree(target)
+              assert not target.exists()
+              print('Deleted test directory:', name)
