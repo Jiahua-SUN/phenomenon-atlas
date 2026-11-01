@@ -5,10 +5,10 @@
 (function () {
   // entry cards (UI round 2026-10-24): the whole card is a button; titles say what the board does, not a question
   const PARTS = [['map', 'Map', 'See which topics were discussed most in podcasts each month, grouped by research field.', 'Open the map →'],
-                 ['gap', 'Gap', 'Compare how often a topic comes up in podcasts with how many journal papers study it.', 'Compare practice and research →'],
+                 ['gap', 'Gap', 'Compare podcast attention with the number of papers linked to each topic.', 'Compare practice and research →'],
                  ['ask', 'Ask', 'Find topics related to your interests, or use the AI assistant to examine how your research question relates to practitioner concerns and existing research.', 'Ask a question →']];
   const LEGAL = [['Third-party material', 'Podcast transcripts and quotations remain the property of their creators and publishers; the Atlas shows short, attributed excerpts for non-commercial academic research and commentary, and full transcripts are accessible only inside the authors’ research environment. Article titles, abstracts and bibliographic records remain the property of their publishers (Academy of Management; SAGE Publications; Wiley on behalf of the Strategic Management Society; INFORMS). Audience figures are retrieved through the YouTube Data API.'],
-                 ['Machine-generated content', 'Topic names, problem statements, core questions and assessments are produced with language models and checked against verbatim quotes, but may contain errors; they are not statements by the podcast guests or by the authors of the cited articles.'],
+                 ['Machine-generated content', 'Problem statements are extracted from podcast transcripts and checked against the source text. Topic names, core questions and assessments are written with language models and may contain errors. Read the supporting quotes and papers to check each interpretation.'],
                  ['Corrections and removal', 'Rights holders who wish material to be corrected or removed may contact the authors.']];
 
   // ---------- board switching: the home page is board 'home'; the first board request after loading opens it instead of the map
@@ -44,7 +44,7 @@
       <section class="home-top">
         <h1 class="mega">Phenomenon<br>Atlas</h1>
         <div class="home-side"><i class="red-sq" aria-hidden="true"></i>
-          <p class="home-sub">A survey of what practitioners talk about, month by month, and of what three decades of research have said about it.</p>
+          <p class="home-sub">Explore the problems practitioners discuss in business podcasts and the research linked to those problems.</p>
           <button type="button" class="text-btn home-tour" data-act="tour">New here? Take the tour →</button></div>
       </section>
       <section class="home-nums">
@@ -54,7 +54,7 @@
       <section class="home-parts">${PARTS.map(([b, k, p, go], i) => `<button type="button" class="home-part" data-go="${b}"><span class="n">${String(i + 1).padStart(2, '0')}</span><h3>${k}</h3><p>${p}</p><span class="go">${go}</span></button>`).join('')}</section>
       <section class="home-lists">
         <div class="home-list"><h2>Most discussed in podcasts, ${esc(mlabel)}</h2><p class="home-list-sub">The ten topics raised in the most podcast episodes. Click one to open it.</p><ol>${hd('Topic', 'Episodes')}${hot.map(row).join('')}</ol></div>
-        ${rise.length ? `<div class="home-list"><h2>Rising fastest in podcasts, ${esc(mlabel)}</h2><p class="home-list-sub">The largest rise on ${esc(plabel)}, among topics raised in at least ${RISE_MIN} episodes in ${esc(mlabel)}. Click one to open it.</p><ol>${hd('Topic', 'Change in episodes')}${rise.map(rrow).join('')}</ol></div>` : ''}</section>
+        ${rise.length ? `<div class="home-list"><h2>Rising fastest in podcasts, ${esc(mlabel)}</h2><p class="home-list-sub">The largest percentage increases from ${esc(plabel)}. Topics must have at least ${RISE_MIN} episodes in ${esc(mlabel)} and at least one in the previous month. Click one to open it.</p><ol>${hd('Topic', 'Change in episodes')}${rise.map(rrow).join('')}</ol></div>` : ''}</section>
       <section class="home-notice">${LEGAL.map(([k, v]) => `<p><b>${k}.</b> ${v}</p>`).join('')}<p><button type="button" class="text-btn" data-act="method">How the Atlas was built →</button></p></section>
     </div>`;
     const cv = h.querySelector('#homeSpec'); if (cv) { drawSpec(cv, M); bindSpec(cv, mlabel); } // drawn at once (reading clientWidth lays the page out), so it also appears in a background tab

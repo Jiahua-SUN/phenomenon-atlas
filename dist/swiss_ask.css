@@ -173,3 +173,5 @@
 .ts-stats { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 13px; color: var(--muted); }
 .ts-stats b { color: var(--text); font-weight: 700; }
 @media (max-width: 600px) { .ts-desc, .ts-q, .ts-stats { margin-left: 0; } .ts-name { font-size: 18px; } }
+
+.local-public-note{font-size:13px;font-weight:400;line-height:1.5;text-transform:none;letter-spacing:0}

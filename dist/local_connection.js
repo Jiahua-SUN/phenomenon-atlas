@@ -16,7 +16,7 @@ window.atlasLocal = (() => {
   }
   function mount() {
     const box = document.createElement('section'); box.className = 'local-connection';
-    box.innerHTML = `<h3>Your AI connection</h3>
+    box.innerHTML = `<h3>Your AI connection <span class="local-public-note">(Prefer no setup? <a href="https://atlas.phenomenon.page/" target="_blank" rel="noopener noreferrer">Use the public website</a>. No sign-in. Everyone shares 1,000 questions per day.)</span></h3>
       <p class="local-step">1. Choose your platform</p>
       <div class="tg" role="group" aria-label="AI platform"><button type="button" data-platform="openai" class="selected" aria-pressed="true">ChatGPT (OpenAI)</button><button type="button" data-platform="anthropic" aria-pressed="false">Claude</button></div>
       <p class="local-step">2. Choose how to connect</p>
@@ -43,7 +43,7 @@ window.atlasLocal = (() => {
       q('#localKeyHint').innerHTML=`Create a key in your ${link(p.keys,box.dataset.platform==='anthropic'?'Claude Console workspace':'OpenAI API dashboard')}. This is an API key, not your chat password.`;
       q('#localBaseHint').innerHTML=`This is ${p.name}'s official API address. Atlas fills it in for you. See the ${link(p.docs,'official connection guide')}.`;
       q('#localCliIntro').textContent=`Use ${p.cli} installed and signed in on this computer.`;
-      q('#localCliSteps').innerHTML=`<li>${link(p.install,`Install ${p.cli}`)} if needed.</li><li>Open a terminal and run <code>${p.login}</code>.</li><li>Return here and check the connection.</li>`;
+      q('#localCliSteps').innerHTML=`<li>${link(p.install,`Install ${p.cli}`)} if needed.</li><li>In any terminal folder, run <code>${p.login}</code> under the same computer account that runs Atlas.</li><li>Return here and check the connection. You do not need to sign in again from the Atlas folder.</li>`;
       q('#localCheck').textContent=`Connect ${p.cli}`;q('#localCliStatus').textContent='';
       box.querySelectorAll('[data-platform]').forEach(b=>{const selected=b.dataset.platform===box.dataset.platform;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
     }

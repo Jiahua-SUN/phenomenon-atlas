@@ -96,7 +96,7 @@
         : out.passing > n ? `<b>${fmt(out.passing)}</b> of the Atlas's ${fmt(out.topics_total)} topics come close to your text (score ${cut} or more). The best ${n} are shown, best first.`
         : `<b>${n}</b> of the Atlas's ${fmt(out.topics_total)} topics ${n === 1 ? 'comes' : 'come'} close to your text (score ${cut} or more), best first.`;
       q('#tList').innerHTML = out.topics.map((x, i) => topicItem(x, i, M, ML, out.weak)).join('');
-      st.textContent = `Done in ${((performance.now() - t0) / 1000).toFixed(1)} s. No AI was used.`;
+      st.textContent = `Done in ${((performance.now() - t0) / 1000).toFixed(1)} s. No assessment was generated.`;
       q('#askResults').scrollIntoView({block: 'start', behavior: 'smooth'});
     } catch (e) { st.textContent = e.message; st.classList.add('err'); }
     q('#askRun').disabled = false;

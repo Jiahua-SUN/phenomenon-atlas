@@ -79,7 +79,7 @@ function pct(arr, v) { const s = arr.slice().sort((a, b) => a - b); let lo = 0; 
 // the help dialogs and Method)
 const COPY = {
   academic: ['01 Map · Research fields', 'Heat', 'The map board shows the problems practitioners raised in business podcasts, grouped into {topics} topics, and how often each topic came up in the period you pick. Each topic is listed under the fields of strategy research (17, plus Others) that an unusually large share of its problems concern. Click a topic to read its core questions and the podcast quotes they come from.'],
-  gap: ['02 Gap · Practice and research', 'Gap', 'For each topic this board shows two numbers: how many podcast episodes discussed it in the period, and how many journal papers study the same questions. The list ranks topics by podcasts, by papers, or by the gap between the two. The quadrant places every topic by both, so you can find topics discussed a lot in podcasts but studied little in papers.'],
+  gap: ['02 Gap · Practice and research', 'Gap', 'Compare podcast attention with the number of papers linked to each topic. Rank topics by either measure or by the difference between their percentile ranks. The quadrant shows both rankings. Open a topic to examine its questions and evidence.'],
   ask: ['03 Ask · Podcasts and papers', 'Ask', 'Search finds topics related to your interests. The AI assistant helps you examine how your research question relates to practitioner concerns and existing research. It draws on retrieved podcast quotes and papers to support an initial assessment of the question’s potential.']};
 // Ask has two functions, so its steps follow the card that is picked (ask = Search, assess = AI assistant; ask.js repaints on a
 // switch); one mixed list read oddly (user 2026-10-25)
@@ -87,8 +87,8 @@ const HOWTO = {
   map: ['Pick a month', 'Pick a research field if you like', 'Click a topic to see its questions and the podcast quotes behind them'],
   trend: ['Choose a series with the three buttons below', 'Point at a line, or tap it, to read a value', 'In Top 20 topics, click a card to open the topic'],
   gap: ['Pick a period, and a research field if you like', 'Rank the list by podcasts, papers or the gap, or switch to the quadrant', 'Click a topic to see its questions and papers'],
-  ask: ['Pick Search or the AI assistant below', 'Enter a topic, research question or a few sentences', 'Click a topic to read its questions, podcast quotes and papers'],
-  assess: ['Pick Search or the AI assistant below', 'Connect your model and enter one research question in English', 'Read the assessment and inspect its supporting quotes and papers']};
+  ask: ["Enter a topic, research question or short description.", "Click Search to find related topics.", "Open a topic to read its questions, podcast quotes and papers."],
+  assess: ["Connect your AI account under Your AI connection.", "Enter one research question in English and click Assess.", "Read the assessment and check its supporting quotes and papers."]};
 function paintHowto(key) { $('#howto').innerHTML = HOWTO[key].map((x, i) => `<li><b>${i + 1}</b>${x}</li>`).join(''); }
 function setCopy(key) { const c = COPY[key]; $('#boardEyebrow').textContent = c[0]; $('#boardTitle').innerHTML = c[1]; $('#boardCopy').innerHTML = c[2].replace('{topics}', state.meta ? fmt(state.meta.topics) : '');
   paintHowto(key === 'academic' ? (state.view === 'trend' ? 'trend' : 'map') : key === 'ask' && window.askMode?.() === 'assess' ? 'assess' : key); $('#howto').hidden = false; enter($('.intro')); }

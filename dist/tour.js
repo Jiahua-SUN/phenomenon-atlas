@@ -44,9 +44,9 @@
     {t: '#detailTitle', skip: stackedLayout, title: 'Full page', text: 'You can drag the left edge of the panel to make it wider. Click the title to open the topic as a full page.', act: () => (page() || {}).kind === 'topic'},
     {t: '#tpQuestions .q-link', title: 'One page per question', text: 'Each core question has its own page with every quote and every linked paper. Click a question.', act: () => (page() || {}).kind === 'question'},
     {t: '#topicPage .tp-grid', title: 'Quotes and papers', text: 'Every quote links to its place in the transcript and to the YouTube video. Every paper links to the article.'},
-    {t: nav('gap'), title: 'The gap board', text: 'Click Gap to compare how often podcasts raise a topic with how many papers study it.', act: () => state.board === 'gap' && $('#topicPage').hidden},
+    {t: nav('gap'), title: 'The gap board', text: 'Click Gap to compare podcast attention with the number of papers linked to each topic.', act: () => state.board === 'gap' && $('#topicPage').hidden},
     {t: '.rank-tabs [data-rtab="quad"]', title: 'List or quadrant', text: 'The list ranks the topics by podcast episodes, by papers or by the gap between the two, and shows both counts. Click Quadrant to see both counts at once.', act: () => state.rtab === 'quad'},
-    {t: '#rankQuad', title: 'The quadrant', text: 'Bottom right holds topics discussed a lot in podcasts but studied little in papers. Top left holds topics well studied in papers but rarely discussed in podcasts now. A circle opens its topic when clicked.'},
+    {t: '#rankQuad', title: 'The quadrant', text: 'Bottom right holds topics with relatively more podcast attention and fewer linked papers. Top left holds topics with relatively less podcast attention and more linked papers. A circle opens its topic when clicked.'},
     {t: nav('ask'), title: 'Ask', text: 'The last board takes your own question. Click Ask.', act: () => state.board === 'ask'},
     {t: '#paneSearch .ask-ex', init: () => { if (!pane('search')) { const c = $('.ask-card[data-mode="search"]'); if (c) c.click(); } }, title: 'Search',
       text: 'Enter a topic, research question or a few sentences to find related topics. Search needs no account. Click an example to try it.',
@@ -54,7 +54,7 @@
     {t: '#tList', title: 'Topics', text: 'Each result is a topic, with its closest core question and its numbers. A topic name opens the topic’s page with its quotes and papers.'},
     {t: '.ask-card[data-mode="assess"]', title: 'AI assistant', text: 'The AI assistant helps you examine how a research question relates to practitioner concerns and existing research. It summarizes retrieved quotes and papers to support an initial assessment of the question’s potential. Click its card.',
       act: () => pane('assess')},
-    {t: '#paneAssess', title: 'Using the assistant', text: 'Choose OpenAI or Claude above the question, then connect with an API key or local CLI. AI needs internet access. While it works, the Assess button becomes Stop. The same question and connection settings reuse the answer saved on this computer. Responses and paper ratings may differ across models.'},
+    {t: '#paneAssess', title: 'Using the assistant', text: 'Connect OpenAI or Claude under Your AI connection. An existing CLI login works regardless of the folder used to sign in. Enter an English question, then click Assess. The public website also offers the assistant without setup.'},
     {t: '#helpBtn', title: 'Help on every board', text: 'Each board has this link under its title. It explains what the figures on the board mean.'},
     {t: '#methodBtn', title: 'Method', text: 'Method explains how the Atlas was built. You can take this tour again from the home page or from Method.', last: true}];
 
