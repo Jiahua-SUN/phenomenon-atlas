@@ -26,6 +26,7 @@ jobs:
       - name: Open website and use Search and AI assistant
         env:
           PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/atlas-public-browsers
+          ATLAS_EXPECT_CACHED: '1'
         shell: pwsh
         run: node (Join-Path $env:RUNNER_TEMP 'atlas-public-test/test.cjs')
       - name: Preserve test evidence
