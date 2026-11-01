@@ -4,6 +4,8 @@ This reviewer edition runs the website on your own computer. The repository cont
 
 [Download the repository ZIP](https://github.com/Jiahua-SUN/phenomenon-atlas/archive/refs/heads/main.zip) · [Runtime release](https://github.com/Jiahua-SUN/phenomenon-atlas/releases/tag/v2.0.0) · [Public website](https://atlas.phenomenon.page/)
 
+> **Website access:** If the public website does not load on campus Wi-Fi, try again using mobile data or a phone hotspot. Some campus network firewalls may restrict access to newly launched websites.
+
 ## Start on Windows
 
 1. Download the repository ZIP using the link above or **Code → Download ZIP**. Extract it to a folder with at least 12 GB of free space. Do not run it inside the ZIP viewer.
