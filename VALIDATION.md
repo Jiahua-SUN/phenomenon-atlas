@@ -1,5 +1,27 @@
 # Validation record
 
+## US installation checks, 2 November 2026
+
+[GitHub Actions run 41327319766](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41327319766) passed on all three platforms. The tested application commit is `5e8cccb389ed44d057b5d5065df4901e606f82be`. Each machine downloaded the public source ZIP for that commit into an empty directory, ran the documented launcher, and downloaded its own Python environment and runtime assets. No previous Atlas installation or cache was used.
+
+| Machine | US network location | First launch to Search ready | Offline restart | Result |
+| --- | --- | ---: | ---: | --- |
+| Windows Server 2025, x64 | Des Moines, Iowa | 85.5 s | 10.4 s | Passed |
+| macOS 15.8.2, Apple silicon | San Antonio, Texas | 65.8 s | 9.6 s | Passed |
+| macOS 15.7.9, Intel | San Antonio, Texas | 236.6 s | 15.9 s | Passed |
+
+Cloudflare and IP geolocation both reported US exits. These measurements describe these hosted machines and their network conditions. They are not estimates for a user's laptop or campus connection.
+
+All 1,082 runtime files passed SHA-256 verification on every machine. The real founder-control search returned 10 topics from the 1,043-topic index. Chromium checks passed for search results, topic navigation, excerpt retrieval, the local AI connection form, mode-specific instructions and the 390-pixel mobile layout. No page JavaScript errors were recorded. The second start reused the installed environment with uv offline and the model configured for offline access.
+
+The suite contains 24 regression checks. All 24 passed on each Mac. Windows passed 23 and skipped the Unix-only TIME_WAIT check. Checks include local HTTP boundaries, provider handling, CLI discovery, runtime installation, rejecting an occupied port and immediate restart after a closed TCP connection.
+
+The tests found and fixed three installation problems: Windows line endings in the Unix launcher, missing Intel Mac wheels for current PyTorch, and the Unix launcher's false port-in-use error during a quick restart. Intel Macs now use exact conda-forge Python 3.13 and PyTorch 2.11 CPU builds plus hash-pinned Python dependencies. The retrieval model and research data are unchanged. The test harness also now compares Windows file identity across short and long paths and stops launcher descendants before restarting.
+
+All three final jobs confirmed `test_files_deleted: true`. Their final cleanup steps also passed, deleting the downloaded source, installed environments, model and data files, browser binaries, caches, test harness and local evidence directories. The Intel environment's temporary conda registration was removed. Small GitHub test artifacts have one-day retention. One superseded run was cancelled while installing; its Intel cleanup reported a concurrent-write error before the disposable runner job ended. The final run completed cleanup normally on all platforms.
+
+These are standard GitHub-hosted machines. The Windows runner uses Windows Server, so this does not establish every Windows 10/11 desktop, SmartScreen or antivirus interaction. The macOS command was launched through a shell, as documented in the README; Finder and Gatekeeper interactions were not tested. The browser checks used Chromium. No personal AI credentials were installed, and no paid or subscription AI model request was sent. API and CLI response handling used mocks. Live account login and assessment remain separate from this test. Linux was not tested.
+
 Date: 30 October 2026. Platform: Windows x64. Website source release: 20261030_190724.
 
 ## Fresh runtime
@@ -34,7 +56,7 @@ Five offline unit tests passed. They covered provider validation, request constr
 
 ## Limits
 
-Windows was tested directly. macOS and Linux launcher files have not been executed on those systems. AI and outbound article/media links require internet access. The package does not include full podcast media, full transcripts or publisher PDFs. Initial dependency installation also requires internet access.
+The initial 30 October checks covered Windows. The 2 November checks above add both Mac architectures. Linux has not been tested. AI and outbound article/media links require internet access. The package does not include full podcast media, full transcripts or publisher PDFs. Initial dependency installation also requires internet access.
 
 The complete 24-step guided tour also passed, including its Search example and the revised local AI instructions.
 

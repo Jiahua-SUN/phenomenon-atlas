@@ -12,7 +12,7 @@ This reviewer edition runs the website on your own computer. The repository cont
 2. Double-click **Open-Atlas-Windows.cmd**. Keep its window open.
 3. Your browser opens at **http://127.0.0.1:18811/**. Wait for Search to show **Ready**.
 
-The first start needs internet access to download an isolated Python installation, the locked dependencies and about 2.53 GB of runtime assets. The launcher checks their SHA-256 hashes before installation. Interrupted asset downloads can resume when you start it again. You do not need to install Python yourself. The installer writes only inside this folder. Later runs reuse this environment. Close the launcher with Ctrl+C when finished.
+The first start needs internet access to download an isolated Python installation, the locked dependencies and about 2.53 GB of runtime assets. The launcher checks their SHA-256 hashes before installation. Interrupted asset downloads can resume when you start it again. You do not need to install Python yourself. Python, dependencies and runtime files stay inside the extracted folder. Later runs reuse this environment. Close the launcher with Ctrl+C when finished.
 
 If port 18811 is occupied, use PowerShell in the extracted folder:
 
@@ -28,7 +28,9 @@ Open a terminal in the extracted folder and run:
 sh Run-Atlas-Unix.command
 ```
 
-The launcher follows the same steps. The Windows path was tested in a fresh environment. The macOS and Linux launchers are provided but have not been tested on those operating systems. Dependencies require a supported 64-bit operating system. Allow about 8 GB of available RAM for the local model and data; more memory is helpful on machines running other applications.
+The same command detects Intel and Apple silicon Macs. Intel Macs use pinned conda-forge builds of Python and PyTorch in `.runtime/intel-env`. Apple silicon Macs and Linux use the environment in `.venv`. The installer does not require an existing Python or conda installation and does not change your shell settings.
+
+Automated installation checks cover Windows x64 and both Mac architectures on fresh GitHub-hosted machines with confirmed US network exits. See [VALIDATION.md](VALIDATION.md) for results and limits. Linux has not been tested. Dependencies require a supported 64-bit operating system. The Intel Mac environment requires macOS 12 or later. Allow about 8 GB of available RAM for the local model and data; more memory is helpful on machines running other applications.
 
 ## What works locally
 
@@ -71,7 +73,7 @@ Assessments compare 30 retrieved podcast quotes and 20 retrieved papers. The num
 
 ## Contents and verification
 
-`dist/` contains the interface and rendered topic data. `bundle/` contains the runtime database and vectors. `models/bge-m3/` contains the exact retrieval model snapshot used for this edition. `scripts/` contains retrieval and assessment code. `uv.lock` records dependency versions. `assets-manifest.json` records the size and SHA-256 of every data and model file.
+`dist/` contains the interface and rendered topic data. `bundle/` contains the runtime database and vectors. `models/bge-m3/` contains the exact retrieval model snapshot used for this edition. `scripts/` contains retrieval and assessment code. `uv.lock` records dependency versions for Windows, Apple silicon macOS and Linux. `intel-macos-conda.lock` and `intel-macos-pip.lock` pin the Intel Mac environment, including package hashes. `assets-manifest.json` records the size and SHA-256 of every data and model file.
 
 Run the full asset check after extracting:
 
@@ -79,7 +81,7 @@ Run the full asset check after extracting:
 .\.venv\Scripts\python.exe -I verify_assets.py
 ```
 
-On macOS or Linux, use `.venv/bin/python -I verify_assets.py`. Run all offline connection, server-boundary and installer tests with the same Python executable and `-I -m unittest discover -s tests -v`.
+On Apple silicon macOS or Linux, use `.venv/bin/python -I verify_assets.py`. On Intel macOS, use `.runtime/intel-env/bin/python -I verify_assets.py`. Run all offline connection, server-boundary and installer tests with the same Python executable and `-I -m unittest discover -s tests -v`.
 
 Installed data and model files occupy about 3.6 GB, plus the environment and retained download cache. Runtime ZIPs are also available on the release page. If automatic downloads are unavailable, place both runtime ZIPs in one folder and run the installed Python with `-I prepare_runtime.py --asset-dir "PATH_TO_THAT_FOLDER"`. You do not need to extract those two ZIPs manually. The model snapshot is `BAAI/bge-m3`, revision `5617a9f61b028005a4858fdac845db406aefb181`. Runtime data were copied unchanged from website release `20261030_190724`. Trend now always uses a shared scale within each series.
 
