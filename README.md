@@ -7,7 +7,7 @@ This reviewer edition runs the website on your own computer. The repository cont
 ## Start on Windows
 
 1. Download the repository ZIP using the link above or **Code → Download ZIP**. Extract it to a folder with at least 12 GB of free space. Do not run it inside the ZIP viewer.
-2. Double-click **Start-Atlas.cmd**. Keep its window open.
+2. Double-click **Open-Atlas-Windows.cmd**. Keep its window open.
 3. Your browser opens at **http://127.0.0.1:18811/**. Wait for Search to show **Ready**.
 
 The first start needs internet access to download an isolated Python installation, the locked dependencies and about 2.53 GB of runtime assets. The launcher checks their SHA-256 hashes before installation. Interrupted asset downloads can resume when you start it again. You do not need to install Python yourself. The installer writes only inside this folder. Later runs reuse this environment. Close the launcher with Ctrl+C when finished.
@@ -15,7 +15,7 @@ The first start needs internet access to download an isolated Python installatio
 If port 18811 is occupied, use PowerShell in the extracted folder:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\Start-Atlas.ps1 -Port 18813
+powershell -ExecutionPolicy Bypass -File .\Setup-Atlas-PowerShell.ps1 -Port 18813
 ```
 
 ## Start on macOS or Linux
@@ -23,7 +23,7 @@ powershell -ExecutionPolicy Bypass -File .\Start-Atlas.ps1 -Port 18813
 Open a terminal in the extracted folder and run:
 
 ```sh
-sh Start-Atlas.command
+sh Run-Atlas-Unix.command
 ```
 
 The launcher follows the same steps. The Windows path was tested in a fresh environment. The macOS and Linux launchers are provided but have not been tested on those operating systems. Dependencies require a supported 64-bit operating system. Allow about 8 GB of available RAM for the local model and data; more memory is helpful on machines running other applications.
@@ -36,6 +36,8 @@ The AI assistant needs internet access and your own model connection. Links to Y
 
 ## AI assistant
 
+For an easier start, use the [AI assistant on the public website](https://atlas.phenomenon.page/). No sign-in, AI account or API key is needed. Everyone shares an allowance of 1,000 questions per day. The website displays the remaining allowance and pauses the assistant when it is used up. The allowance resets at midnight, Singapore time.
+
 The AI assistant helps researchers examine how their own research questions relate to practitioner concerns and existing research. For one English question, it summarizes how practitioners discuss the issue in retrieved podcast quotes and how retrieved papers have studied it. The assessment brings both sources together and links to the supporting evidence. Use it as a starting point for assessing the question’s practical relevance and potential, and for identifying practitioner problems related to your interests.
 
 Retrieval and assessment follow a predefined workflow and response structure within the Atlas. The CLI connections run this workflow. They do not provide an interface for an external agent to explore the Atlas independently.
@@ -46,9 +48,13 @@ Open **Ask → AI assistant → Your AI connection**. Choose **ChatGPT (OpenAI)*
 
 For OpenAI, create a key in the [API dashboard](https://platform.openai.com/api-keys) and copy an API model ID from the [official model list](https://developers.openai.com/api/docs/models). For Claude, create a workspace API key in [Claude Console](https://platform.claude.com/settings/keys) and copy the Claude API ID from the [official model list](https://platform.claude.com/docs/en/models/overview). The examples in the form are examples, not automatic model selections. The selected model must support the request format: Chat Completions with JSON output for OpenAI, and strict JSON schema output through Anthropic's [OpenAI SDK compatibility endpoint](https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/openai-sdk) for Claude. Cloud gateways and unscoped Anthropic personal or service account keys are not supported by this form.
 
-**Use local CLI.** For ChatGPT, install [Codex CLI](https://developers.openai.com/codex/cli/) and run `codex login`. For Claude, install [Claude Code](https://code.claude.com/docs/en/quickstart) and run `claude auth login`. Select the platform in Atlas and click **Connect Codex CLI** or **Connect Claude Code**. No API key, address or model ID is needed in the form. Atlas uses the CLI's default model. Subscription allowance or API billing follows the CLI's sign-in method and account limits. Atlas does not install software or change your login.
+**Use local CLI.** For ChatGPT, install [Codex CLI](https://developers.openai.com/codex/cli/) and run `codex login` in any terminal folder. For Claude, install [Claude Code](https://code.claude.com/docs/en/quickstart) and run `claude auth login` in any terminal folder. Select the platform in Atlas and click **Connect Codex CLI** or **Connect Claude Code**. No API key, address or model ID is needed in the form. Atlas uses the CLI's default model. Subscription allowance or API billing follows the CLI's sign-in method and account limits. Atlas does not install software or change your login.
 
-Both CLI adapters receive the selected evidence and assessment prompt in a temporary working folder and request structured output without saving a CLI conversation. Codex uses a read-only sandbox with shell and web search disabled. Claude Code disables built-in tools, MCP tools, hooks and slash commands, and does not load user or project settings. Update the CLI if it does not support the required options. CLI authentication uses the existing installation; API keys and alternate provider URLs from the Atlas server environment are not passed to the Claude Code assessment process.
+Atlas finds the CLI through your PATH and common user installation folders. On Windows it also reads the current user and system PATH, so installations made after Atlas started can be found. Sign in under the same operating-system account that runs Atlas. Your terminal does not need to be in the Atlas folder.
+
+For a portable installation or a separate CLI profile, set `ATLAS_CODEX_PATH` or `ATLAS_CLAUDE_PATH` to the executable's absolute path before starting Atlas. Set `ATLAS_CODEX_HOME` or `ATLAS_CLAUDE_HOME` to the corresponding configuration folder if needed. Existing `CODEX_HOME` and `CLAUDE_CONFIG_DIR` settings are also respected. These settings identify an installation and profile; Atlas does not search other users' files or copy credentials.
+
+Both CLI adapters receive the selected evidence and assessment prompt in a temporary working folder and request structured output without saving a CLI conversation. Codex uses a read-only sandbox with shell and web search disabled. It preserves the configured credential store and model selection while ignoring other user and project configuration. Claude Code disables built-in tools, MCP tools, hooks and slash commands, and does not load user or project settings. Update the CLI if it does not support the required options. CLI authentication uses the existing installation; API keys and alternate provider URLs from the Atlas server environment are not passed to the Claude Code assessment process.
 
 Assessments compare 30 retrieved podcast quotes and 20 retrieved papers. The numerical calculations and thresholds are unchanged from the website. Different models can produce different judgments and paper ratings. An incomplete set of paper ratings is rejected rather than displayed as a zero count.
 
@@ -82,3 +88,7 @@ The application code is tracked in this repository. Large runtime files are publ
 Local environments, downloaded assets, credentials and assessment histories are excluded by `.gitignore`. Never commit `.runtime`, `.venv`, API keys or personal results.
 
 See `THIRD_PARTY_NOTICES.md` for the scope of third-party content and the model notice, and `VALIDATION.md` for the checks actually performed.
+
+## License
+
+The original Atlas application code is licensed under the GNU General Public License, version 3 (GPL-3.0-only). See [LICENSE](LICENSE) for the full terms. Third-party software, the retrieval model, podcast excerpts and paper content retain their respective licenses and rights. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

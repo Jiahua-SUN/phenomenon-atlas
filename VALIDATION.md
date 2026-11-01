@@ -53,3 +53,12 @@ All 17 offline tests passed. Eight additional connection tests cover the endpoin
 No paid model request was made for this update. OpenAI and Claude API requests were tested with mocks. Claude Code process output was tested with mocks. This computer has Claude Code 2.1.312, whose help confirms the required flags. The isolated Claude authentication check asks the user to run claude auth login. The Codex authentication check reports a ChatGPT connection. These checks do not establish a successful live Claude assessment. The previous real Codex assessment is documented above.
 
 Browser checks passed for both platforms and both connection modes. Switching platforms clears the key. The API address is read-only and the help links change with the platform. The 390-pixel viewport displayed a single-column API form and CLI setup instructions without horizontal overflow (clientWidth and scrollWidth both 375). The Codex status button confirmed ChatGPT login; the isolated Claude status button requested login. No browser console errors were recorded.
+
+
+## Update validation on 1 November 2026
+
+The local edition passed all 22 offline tests, including CLI lookup from different folders, credential-store preservation, isolated Codex execution, provider validation, cancellation and runtime installation. Browser checks passed for Search, topic navigation, mode-specific instructions, the public website link, Codex connection status and mobile layout. The search query "Founder control after outside investment" returned 10 topics. No JavaScript errors were observed. The existing missing favicon returns 404.
+
+On this Windows computer, Codex reported an existing ChatGPT login from both the user directory and an unrelated project directory. Claude Code was found but reported no active login from either directory, as it did before this update. Claude authentication with a signed-in account and macOS/Linux execution were not tested live. No CLI model request was sent during this update.
+
+The Windows launcher is now Open-Atlas-Windows.cmd. The auxiliary PowerShell script is Setup-Atlas-PowerShell.ps1, and the Unix launcher is Run-Atlas-Unix.command. Their names remain distinct when extensions are hidden.
