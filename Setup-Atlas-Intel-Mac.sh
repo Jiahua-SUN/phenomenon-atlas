@@ -27,6 +27,18 @@ if [ ! -x "$ENV/bin/python" ] || [ ! -f "$STAMP" ] || [ "$(cat "$STAMP")" != "$E
   "$TOOLS/bin/micromamba" create --no-rc --yes --prefix "$ENV" --file intel-macos-conda.lock
   "$TOOLS/uv" pip install --python "$ENV/bin/python" --no-deps --require-hashes -r intel-macos-pip.lock
   "$TOOLS/uv" pip check --python "$ENV/bin/python"
+  # Do not leave this private environment in the user's global conda registry.
+  "$ENV/bin/python" -I - "$ENV" <<'PYREG'
+from pathlib import Path
+import sys
+registry=Path.home()/'.conda/environments.txt'
+if registry.exists():
+    lines=registry.read_text().splitlines()
+    keep=[line for line in lines if Path(line).resolve()!=Path(sys.argv[1]).resolve()]
+    if keep!=lines:
+        if keep: registry.write_text('\n'.join(keep)+'\n')
+        else: registry.unlink()
+PYREG
   printf '%s\n' "$EXPECTED" > "$STAMP"
 fi
 exec "$ENV/bin/python" -X utf8 -I launch.py "$@"

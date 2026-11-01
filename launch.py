@@ -13,6 +13,16 @@ import webbrowser
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT))
 from prepare_runtime import ensure_runtime
+def check_port(port):
+    with socket.socket() as sock:
+        # Match uvicorn on Unix so closed connections in TIME_WAIT do not block
+        # a restart. Windows retains exclusive address checks.
+        if os.name != 'nt':
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try: sock.bind(('127.0.0.1',port))
+        except OSError:
+            raise SystemExit(f'Port {port} is already in use. Close the earlier Atlas window or choose another port.')
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--port',type=int,default=18811)
@@ -22,9 +32,7 @@ def main():
     if not 1024<=args.port<=65535: raise SystemExit('Choose a port between 1024 and 65535.')
     try:ensure_runtime()
     except Exception as exc:raise SystemExit(str(exc))
-    with socket.socket() as sock:
-        try:sock.bind(('127.0.0.1',args.port))
-        except OSError:raise SystemExit(f'Port {args.port} is already in use. Close the earlier Atlas window or choose another port.')
+    check_port(args.port)
     env=os.environ.copy()
     for key in list(env):
         if key.startswith('ATLAS_'):env.pop(key)
