@@ -1,6 +1,6 @@
 [project]
 name = "phenomenon-atlas-review"
-version = "2.0.1"
+version = "2.0.2"
 description = "Local reviewer edition of Phenomenon Atlas"
 requires-python = ">=3.13,<3.14"
 dependencies = [

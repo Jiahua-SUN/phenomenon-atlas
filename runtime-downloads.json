@@ -1,17 +1,17 @@
 {
-  "release": "v2.0.1",
+  "release": "v2.0.2",
   "assets": [
     {
       "name": "site-data-20261030.zip",
       "bytes": 1100750796,
       "sha256": "189c081ffda5bb17c36f9d93d2a9021d8f98d4f9cbe9dd3660e61b979df70b6a",
-      "url": "https://api.github.com/repositories/1439689708/releases/assets/692091588"
+      "url": "https://downloads.phenomenon.page/runtime/20261030/site-data-20261030.zip"
     },
     {
       "name": "retrieval-model-20261030.zip",
       "bytes": 1424425306,
       "sha256": "75d22195fa27dfce53f61a61fdecaecc8233e24199d5d3bec894e49fcaaac0fe",
-      "url": "https://api.github.com/repositories/1439689708/releases/assets/692094987"
+      "url": "https://downloads.phenomenon.page/runtime/20261030/retrieval-model-20261030.zip"
     }
   ]
 }
