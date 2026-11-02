@@ -11,6 +11,8 @@ on:
       - 'Setup-Atlas-PowerShell.ps1'
       - 'pyproject.toml'
       - 'uv.lock'
+      - 'runtime-downloads.json'
+      - 'prepare_runtime.py'
 permissions:
   contents: read
 jobs:
