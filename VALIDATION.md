@@ -1,5 +1,21 @@
 # Validation record
 
+## Installation progress display, 2 November 2026
+
+Runtime downloads now show an ASCII progress bar, percentage, transferred size, recent transfer speed and estimated time remaining for the current package. Interactive terminals update one line. Saved logs receive occasional full lines. Resumed downloads include previously saved bytes in the percentage but exclude them from the measured transfer speed. Verification and extraction have separate status messages. The Unix environment-manager downloads also show curl's transfer statistics.
+
+A real 1,100,750,796-byte download passed SHA-256 verification in an interactive Windows terminal. The progress line updated throughout the transfer, and the temporary download was removed. Four new regression tests cover resumed transfer rates, zero elapsed time, log throttling, terminal line cleanup and a server that ignores a Range request.
+
+Fresh installation, asset verification, Search, browser checks and offline restart passed on all three US-hosted test machines below. The regression suite contains 28 tests. Both Macs passed all 28. Windows passed 27 and skipped the Unix-only socket-reuse test. These measurements describe these hosted machines and their connections.
+
+| Machine | US network location | First launch to Search ready | Offline restart | Result |
+| --- | --- | ---: | ---: | --- |
+| Windows Server 2025, x64 | Quincy, Washington | 92.7 s | 10.1 s | Passed |
+| macOS 15, Apple silicon | San Antonio, Texas | 116.3 s | 15.8 s | Passed |
+| macOS 15, Intel | San Antonio, Texas | 194.2 s | 18.7 s | Passed |
+
+All three reports confirmed that the test files were deleted. Final cleanup removed the source, runtime data and model, environments, browser files, caches and local evidence. Small GitHub artifacts have one-day retention. No personal AI credentials or paid AI request was used. The download addresses, resource contents and checksums are unchanged.
+
 ## Custom-domain runtime migration, 2 November 2026
 
 The runtime data and retrieval model now download from downloads.phenomenon.page, hosted on Cloudflare R2. Both complete archives matched their expected byte counts and SHA-256 hashes. Bounded, suffix and open-ended range requests returned HTTP 206. The download checks followed no redirect to GitHub. A cache rule applies only to the download hostname to keep range responses consistent.
