@@ -73,6 +73,22 @@ Assessments compare 30 retrieved podcast quotes and 20 retrieved papers. The num
 - The server listens only on `127.0.0.1`. It rejects other Host headers and cross-origin requests. It is intended for your local browser. Do not publish it through a tunnel or change it into a public server.
 - The website's hosted accounts, passwords, provider credentials and private server settings are not included. Public API and MCP endpoints remain unavailable.
 
+## Uninstall and clean up
+
+When installed with the supplied launcher, Atlas keeps its application files, runtime data, retrieval model, Python installation, dependencies and download caches inside the extracted application folder. There is no separate system uninstaller. These steps apply to Windows, macOS and Linux.
+
+1. In the terminal running Atlas, press **Ctrl+C** and wait for it to stop. Close that terminal and the Atlas browser tab. Closing the browser tab alone does not stop the server.
+2. Save any assessment results you want to keep elsewhere. Deleting the application folder also deletes its saved questions and answers.
+3. Delete the entire extracted application folder, including its hidden folders. Identify it by `Open-Atlas-Windows.cmd` on Windows or `Run-Atlas-Unix.command` on macOS and Linux. This removes `models/`, `bundle/`, `dist/`, `.venv/` and `.runtime/`. The `.runtime` folder includes downloaded ZIPs and partial downloads, Python and tool caches, the Intel Mac environment where applicable, and the assessment database `answers.sqlite`.
+4. Delete the original source ZIP and any additional extracted copies you created. If you downloaded runtime ZIPs separately or used `--asset-dir`, delete those copies from the location you chose as well. Each installed copy has its own environment and resources.
+5. After checking that you selected the correct files, remove those items from the Recycle Bin on Windows or Trash on macOS and Linux to reclaim their disk space.
+
+For a complete local cleanup, you can also clear the browser's site data and cached files for the local address you used, normally `http://127.0.0.1:18811`. This removes saved interface preferences such as the theme and tour status. Remove its browsing and download history entries if desired. The same local address may also be used by another application, so check before clearing its site data.
+
+Temporary AI working folders are normally removed automatically. If Atlas or the computer crashed while an assessment was running, an `atlas-assessment-*` or `atlas-claude-*` folder may remain in the operating system's temporary directory. After stopping Atlas, remove only folders you have confirmed belong to that run. On Intel Macs, an interrupted environment setup can also leave its exact `.runtime/intel-env` path in `~/.conda/environments.txt`. Remove only that entry if present, preserving entries for other environments.
+
+Atlas uses existing Codex or Claude installations and credentials. Do not delete their shared configuration folders or another project's Python environment when removing Atlas. Deleting Atlas does not delete records held by your AI provider. If you also maintain a development copy or host the public website, remove only your downloaded test copy, not the development or server folder.
+
 ## Contents and verification
 
 `dist/` contains the interface and rendered topic data. `bundle/` contains the runtime database and vectors. `models/bge-m3/` contains the exact retrieval model snapshot used for this edition. `scripts/` contains retrieval and assessment code. `uv.lock` records dependency versions for Windows, Apple silicon macOS and Linux. `intel-macos-conda.lock` and `intel-macos-pip.lock` pin the Intel Mac environment, including package hashes. `assets-manifest.json` records the size and SHA-256 of every data and model file.
