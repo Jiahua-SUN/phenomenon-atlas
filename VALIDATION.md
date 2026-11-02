@@ -8,11 +8,11 @@ The first run used Cheyenne, Wyoming. The homepage returned HTTP 200 and finishe
 
 The first test's last UI step incorrectly tried to click mobile-only tabs on a desktop viewport. The website request had already succeeded. After correcting the test, a second US runner in Boydton, Virginia passed every check, including mobile paper and overall tabs, no horizontal overflow and no page JavaScript errors. This second request reused the saved answer, as asserted by the test, and moved the allowance from 999 to 998. Only one new model answer was generated.
 
-[The initial live-answer record](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41329915085) and [the fully passing browser check](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41330356984) preserve the sequence. Both jobs passed their final file-deletion steps. Browser installations, downloaded test files, caches and evidence directories were deleted from the test machines. Small GitHub artifacts have one-day retention. These results establish access from the tested US networks; they do not establish that every campus firewall permits the website.
+The initial live-answer check and the subsequent browser check were run separately. Both jobs passed their final file-deletion steps. Browser installations, downloaded test files, caches and evidence directories were deleted from the test machines. Small GitHub artifacts have one-day retention. These results establish access from the tested US networks; they do not establish that every campus firewall permits the website.
 
 ## US installation checks, 2 November 2026
 
-[GitHub Actions run 41327319766](https://github.com/Jiahua-SUN/phenomenon-atlas/actions/runs/41327319766) passed on all three platforms. The tested application commit is `5e8cccb389ed44d057b5d5065df4901e606f82be`. Each machine downloaded the public source ZIP for that commit into an empty directory, ran the documented launcher, and downloaded its own Python environment and runtime assets. No previous Atlas installation or cache was used.
+The fresh installation check passed on all three platforms. Each machine downloaded the same fixed application revision as a source ZIP into an empty directory, ran the documented launcher, and downloaded its own Python environment and runtime assets. No previous Atlas installation or cache was used.
 
 | Machine | US network location | First launch to Search ready | Offline restart | Result |
 | --- | --- | ---: | ---: | --- |
@@ -94,3 +94,9 @@ The local edition passed all 22 offline tests, including CLI lookup from differe
 On this Windows computer, Codex reported an existing ChatGPT login from both the user directory and an unrelated project directory. Claude Code was found but reported no active login from either directory, as it did before this update. Claude authentication with a signed-in account and macOS/Linux execution were not tested live. No CLI model request was sent during this update.
 
 The Windows launcher is now Open-Atlas-Windows.cmd. The auxiliary PowerShell script is Setup-Atlas-PowerShell.ps1, and the Unix launcher is Run-Atlas-Unix.command. Their names remain distinct when extensions are hidden.
+
+## Download configuration check, 2 November 2026
+
+Runtime downloads now use numeric GitHub repository and asset IDs. Both public asset endpoints returned HTTP 200, the expected archive length and a ZIP file header. A separate 64 KiB range request to each endpoint returned HTTP 206 with the expected Content-Range, confirming access for resumed downloads. These checks sampled each archive; they did not repeat a complete download or a fresh installation. Archive sizes and SHA-256 values are unchanged. All four runtime installer tests passed.
+
+The current 56 tracked files were checked for the maintainer's personal identifiers. Direct account links and identifying test-run references were removed from the documentation and download configuration. The public website and third-party documentation links remain available. This content cleanup does not anonymize repository ownership or commit history.
