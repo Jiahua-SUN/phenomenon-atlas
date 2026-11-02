@@ -98,6 +98,21 @@ def main():
     root=roots[0]
     REPORT['steps']['source_download']={'seconds':round(time.monotonic()-started,1),'sha256':hashlib.sha256(archive.read_bytes()).hexdigest()}
     assert not (root/'.venv').exists() and not (root/'bundle').exists() and not (root/'models').exists()
+    # Verify the public runtime host and resumable access before installation.
+    downloads=json.loads((root/'runtime-downloads.json').read_text())['assets']
+    REPORT['runtime_downloads']=[]
+    for asset in downloads:
+        expected_url='https://downloads.phenomenon.page/runtime/20261030/'+asset['name']
+        assert asset['url']==expected_url
+        req=urllib.request.Request(expected_url,headers={'User-Agent':'PhenomenonAtlas/2.0','Range':'bytes=0-65535'})
+        with urllib.request.urlopen(req,timeout=60) as response:
+            assert response.geturl()==expected_url, 'Runtime download unexpectedly redirected'
+            assert response.status==206
+            assert response.headers.get('Content-Range')=='bytes 0-65535/'+str(asset['bytes'])
+            data=response.read()
+            assert len(data)==65536 and data[:4]==b'PK\x03\x04'
+            REPORT['runtime_downloads'].append({'url':expected_url,'status':response.status,'range_verified':True,'redirected':False})
+    save()
     cmd=['cmd.exe','/d','/c',str(root/'Open-Atlas-Windows.cmd')] if os.name=='nt' else ['sh',str(root/'Run-Atlas-Unix.command'),'--no-browser']
     env=os.environ.copy()
     env.update(OMP_NUM_THREADS='2',MKL_NUM_THREADS='2',TOKENIZERS_PARALLELISM='false',PYTHONUNBUFFERED='1')
