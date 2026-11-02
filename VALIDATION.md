@@ -1,5 +1,23 @@
 # Validation record
 
+## Custom-domain runtime migration, 2 November 2026
+
+The runtime data and retrieval model now download from downloads.phenomenon.page, hosted on Cloudflare R2. Both complete archives matched their expected byte counts and SHA-256 hashes. Bounded, suffix and open-ended range requests returned HTTP 206. The download checks followed no redirect to GitHub. A cache rule applies only to the download hostname to keep range responses consistent.
+
+Fresh installations then passed on three standard GitHub-hosted machines. Cloudflare and a separate IP geolocation service confirmed US exits on all three. Each test started with an empty directory, downloaded the application source ZIP, and ran the documented launcher using the new runtime addresses.
+
+| Machine | US network location | First launch to Search ready | Offline restart | Result |
+| --- | --- | ---: | ---: | --- |
+| Windows Server 2025, x64 | Oak Hill, Virginia | 118.4 s | 10.1 s | Passed |
+| macOS 15.8.2, Apple silicon | San Antonio, Texas | 116.6 s | 15.5 s | Passed |
+| macOS 15, Intel | Redmond, Washington | 406.6 s | 30.2 s | Passed |
+
+Each machine verified all 1,082 runtime files, returned 10 topics from a real Search query, passed the regression suite and Chromium interface checks, and restarted with the installed dependencies and model in offline mode. Both runtime URLs returned the expected partial content without redirects on every machine. These times describe the tested hosted machines, not every personal computer or campus connection.
+
+All three reports recorded `functional_pass: true`, `result: passed` and `test_files_deleted: true`. Every final cleanup step also succeeded. Downloaded source, installed environments, runtime files, browser files, caches and local evidence were removed from the test machines. The temporary Intel environment registration was removed. Small GitHub evidence artifacts have one-day retention.
+
+No personal AI credentials or paid AI requests were used. The AI connection interface and response handling were checked with mocks. Live provider login, Finder/Gatekeeper and Windows desktop security prompts remain outside this automated test.
+
 ## Public website from US networks, 2 November 2026
 
 The public website at https://atlas.phenomenon.page passed a real browser check from standard Windows GitHub-hosted runners. Both Cloudflare and a separate IP geolocation service confirmed US exits. No account, personal AI credentials or API key was installed in the browser.
@@ -95,8 +113,8 @@ On this Windows computer, Codex reported an existing ChatGPT login from both the
 
 The Windows launcher is now Open-Atlas-Windows.cmd. The auxiliary PowerShell script is Setup-Atlas-PowerShell.ps1, and the Unix launcher is Run-Atlas-Unix.command. Their names remain distinct when extensions are hidden.
 
-## Download configuration check, 2 November 2026
+## Earlier GitHub download configuration check, 2 November 2026
 
-Runtime downloads now use numeric GitHub repository and asset IDs. Both public asset endpoints returned HTTP 200, the expected archive length and a ZIP file header. A separate 64 KiB range request to each endpoint returned HTTP 206 with the expected Content-Range, confirming access for resumed downloads. These checks sampled each archive; they did not repeat a complete download or a fresh installation. Archive sizes and SHA-256 values are unchanged. All four runtime installer tests passed.
+Before the custom-domain migration above, runtime downloads used numeric GitHub repository and asset IDs. Both public asset endpoints returned HTTP 200, the expected archive length and a ZIP file header. A separate 64 KiB range request to each endpoint returned HTTP 206 with the expected Content-Range, confirming access for resumed downloads. These checks sampled each archive; they did not repeat a complete download or a fresh installation. Archive sizes and SHA-256 values are unchanged. All four runtime installer tests passed.
 
 The current 56 tracked files were checked for the maintainer's personal identifiers. Direct account links and identifying test-run references were removed from the documentation and download configuration. The public website and third-party documentation links remain available. This content cleanup does not anonymize repository ownership or commit history.
