@@ -8,7 +8,7 @@ export UV_NO_MODIFY_PATH=1
 mkdir -p "$UV_UNMANAGED_INSTALL"
 if [ ! -x "$UV_UNMANAGED_INSTALL/uv" ]; then
   echo 'Downloading the Python environment manager from Astral...'
-  curl --fail --location --silent --show-error https://astral.sh/uv/0.13.6/install.sh -o .runtime/uv-installer.sh
+  curl --fail --location --show-error https://astral.sh/uv/0.13.6/install.sh -o .runtime/uv-installer.sh
   sh .runtime/uv-installer.sh
 fi
 if [ "$(uname -s)" = Darwin ] && [ "$(uname -m)" = x86_64 ]; then

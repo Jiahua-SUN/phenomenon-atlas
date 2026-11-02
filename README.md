@@ -14,7 +14,7 @@ To download the application, open the repository's main page and select **Code â
 2. Double-click **Open-Atlas-Windows.cmd**. Keep its window open.
 3. Your browser opens at **http://127.0.0.1:18811/**. Wait for Search to show **Ready**.
 
-The first start needs internet access to download an isolated Python installation, the locked dependencies and about 2.53 GB of runtime assets. The launcher checks their SHA-256 hashes before installation. Interrupted asset downloads can resume when you start it again. You do not need to install Python yourself. Python, dependencies and runtime files stay inside the extracted folder. Later runs reuse this environment. Close the launcher with Ctrl+C when finished.
+The first start needs internet access to download an isolated Python installation, the locked dependencies and about 2.53 GB of runtime assets. The terminal shows a progress bar, downloaded size, recent download speed and estimated time remaining for each runtime package. The time estimate changes with your connection speed. Status messages show when Atlas is checking and extracting the files. The launcher checks their SHA-256 hashes before installation. Interrupted asset downloads can resume when you start it again. You do not need to install Python yourself. Python, dependencies and runtime files stay inside the extracted folder. Later runs reuse this environment. Close the launcher with Ctrl+C when finished.
 
 If port 18811 is occupied, use PowerShell in the extracted folder:
 

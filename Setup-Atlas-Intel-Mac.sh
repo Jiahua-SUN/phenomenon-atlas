@@ -19,7 +19,7 @@ if [ ! -x "$ENV/bin/python" ] || [ ! -f "$STAMP" ] || [ "$(cat "$STAMP")" != "$E
   if [ ! -x "$TOOLS/bin/micromamba" ]; then
     echo 'Downloading the Intel Mac environment manager from conda-forge...'
     ARCHIVE="$TOOLS/micromamba-osx-64-2.10.0.tar.bz2"
-    curl --fail --location --silent --show-error https://conda.anaconda.org/conda-forge/osx-64/micromamba-2.10.0-0.tar.bz2 -o "$ARCHIVE"
+    curl --fail --location --show-error https://conda.anaconda.org/conda-forge/osx-64/micromamba-2.10.0-0.tar.bz2 -o "$ARCHIVE"
     printf '%s  %s\n' '17b20c4271d65c030a5c86788f5ca86eb575187209f626edabdb8c6a875c6838' "$ARCHIVE" | shasum -a 256 -c -
     tar -xjf "$ARCHIVE" -C "$TOOLS" bin/micromamba
   fi
