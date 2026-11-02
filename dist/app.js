@@ -23,7 +23,7 @@ async function load() {
   state.pts = {n, x, y, t, m, w};
   state.monthTotals = meta.month_episodes || meta.months.map(mo => topics.reduce((s, tp) => s + ((tp.heat[mo] || [0, 0])[0]), 0));
   state.period = meta.last_full_month;
-  $('#stats').innerHTML = `<div><b>${fmt(meta.episodes)}</b><span>Podcasts</span></div><div><b>${fmt(meta.topics)}</b><span>Topics</span></div><div><b>${fmt(meta.problems)}</b><span>Verified problems</span></div>`;
+  $('#stats').innerHTML = `<div><b>${fmt(meta.episodes)}</b><span>Podcasts</span></div><div><b>${fmt(meta.topics)}</b><span>Topics</span></div><div><b>${fmt(meta.problems)}</b><span>Verified problems</span></div><div><b>${fmt(PAPER_LIBRARY)}</b><span>Papers</span></div>`;
   $('#footNote').textContent = footText(meta);
   bind(); $('#themeLabel').textContent = isLight() ? 'Dark' : 'Light'; setBoard('map');
   document.fonts && document.fonts.ready.then(() => { if (state.board === 'map') renderMap(); }); // names are measured, so redraw once Inter is in
@@ -80,14 +80,14 @@ function pct(arr, v) { const s = arr.slice().sort((a, b) => a - b); let lo = 0; 
 const COPY = {
   academic: ['01 Map · Research fields', 'Heat', 'The map board shows the problems practitioners raised in business podcasts, grouped into {topics} topics, and how often each topic came up in the period you pick. Each topic is listed under the fields of strategy research (17, plus Others) that an unusually large share of its problems concern. Click a topic to read its core questions and the podcast quotes they come from.'],
   gap: ['02 Gap · Practice and research', 'Gap', 'Compare podcast attention with the number of papers linked to each topic. Rank topics by either measure or by the difference between their percentile ranks. The quadrant shows both rankings. Open a topic to examine its questions and evidence.'],
-  ask: ['03 Ask · Podcasts and papers', 'Ask', 'Search finds topics related to your interests. The AI assistant helps you examine how your research question relates to practitioner concerns and existing research. It draws on retrieved podcast quotes and papers to support an initial assessment of the question’s potential.']};
+  ask: ['03 Ask · Podcasts and papers', 'Ask', '“Search” finds topics related to your interests. The “AI assistant” helps you examine how your research question relates to practitioner concerns and existing research. It draws on retrieved podcast quotes and papers to support an initial assessment of the question’s potential.']};
 // Ask has two functions, so its steps follow the card that is picked (ask = Search, assess = AI assistant; ask.js repaints on a
 // switch); one mixed list read oddly (user 2026-10-25)
 const HOWTO = {
   map: ['Pick a month', 'Pick a research field if you like', 'Click a topic to see its questions and the podcast quotes behind them'],
   trend: ['Choose a series with the three buttons below', 'Point at a line, or tap it, to read a value', 'In Top 20 topics, click a card to open the topic'],
   gap: ['Pick a period, and a research field if you like', 'Rank the list by podcasts, papers or the gap, or switch to the quadrant', 'Click a topic to see its questions and papers'],
-  ask: ["Enter a topic, research question or short description.", "Click Search to find related topics.", "Open a topic to read its questions, podcast quotes and papers."],
+  ask: ["Enter a topic or short question.", "Click “Search” to find related topics.", "Open a topic to read its questions, podcast quotes and papers."],
   assess: ["Connect your AI account under Your AI connection.", "Enter one research question in English and click Assess.", "Read the assessment and check its supporting quotes and papers."]};
 function paintHowto(key) { $('#howto').innerHTML = HOWTO[key].map((x, i) => `<li><b>${i + 1}</b>${x}</li>`).join(''); }
 function setCopy(key) { const c = COPY[key]; $('#boardEyebrow').textContent = c[0]; $('#boardTitle').innerHTML = c[1]; $('#boardCopy').innerHTML = c[2].replace('{topics}', state.meta ? fmt(state.meta.topics) : '');

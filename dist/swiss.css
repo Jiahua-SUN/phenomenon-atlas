@@ -649,3 +649,12 @@ body.on-home .foot { margin-top: 18px; }
   .tr-series.tg { width: 100%; margin: 8px 0 16px; }
   .tr-series button { flex: 1 1 0; min-width: 0; white-space: normal; font-size: 12px; padding: 8px 6px; min-height: 44px; }
 }
+
+/* Share title, description and topic row heights between the home lists. */
+@media (min-width: 981px) {
+  .home-list { display: grid; grid-template-rows: subgrid; grid-row: span 13; row-gap: 0; }
+  .home-list ol { display: grid; grid-template-rows: subgrid; grid-row: span 11; row-gap: 0; }
+  .home-list li > button { height: 100%; align-items: start; }
+}
+/* Keep the four corpus totals readable on narrow screens. */
+.stats { flex-wrap: wrap; row-gap: 14px; }

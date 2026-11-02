@@ -24,14 +24,14 @@
     board.innerHTML = `
       <div class="ask-guide" role="tablist" aria-label="Choose a function">
         <button type="button" role="tab" class="ask-card" data-mode="search" aria-selected="true"><span class="n">Search</span><b>The topics closest to what you are interested in.</b>
-          <span>Enter a topic, research question or a few sentences. Search returns up to 10 of the Atlas's closest topics, each with its closest core question. Open a topic to inspect its podcast quotes and papers.</span>
+          <span>Enter a topic or short question. “Search” returns up to 10 of the Atlas's closest topics, each with its closest core question. Open a topic to inspect its podcast quotes and papers.</span>
           <small>Local search · no API key · podcasts from January to October 2026</small></button>
         <button type="button" role="tab" class="ask-card" data-mode="assess" aria-selected="false"><span class="n">AI assistant</span><b>Explore the potential of a research question.</b>
-          <span>Enter one research question in English. The assistant summarizes how practitioners discuss the issue and how retrieved papers have studied it. Use the evidence and assessment to consider the question’s potential.</span>
+          <span>Enter one research question in English. The AI assistant summarizes how practitioners discuss the issue and how retrieved papers have studied it. Use the evidence and assessment to consider the question’s potential.</span>
           <small>OpenAI or Claude · API key or local CLI · internet required</small></button>
       </div>
       <div class="ask2-pane" id="paneSearch">
-        <div class="ask-input"><label class="lab" for="askText">Enter a topic, research question or a few sentences</label>
+        <div class="ask-input"><label class="lab" for="askText">Enter a topic or short question</label>
           <textarea id="askText" rows="3" maxlength="4000" spellcheck="false" placeholder="${esc(SEARCH_EX[0][1])}"></textarea>
           <div class="ask-actions"><button id="askRun" class="primary-btn">Search</button><span id="askStatus" class="ask-status"></span></div>
           <div class="ask-examples"><span>Examples</span>${SEARCH_EX.map(e => `<button class="ask-ex" data-q="${esc(e[1])}">${esc(e[0])}</button>`).join('')}</div></div>
